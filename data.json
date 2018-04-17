@@ -1,0 +1,8 @@
+data = [
+  { "id": "dm1", "text": "Danh mục 1", "price": 567000 },
+  { "id": "dm2", "text": "Danh mục 2", "price": 5123000 },
+  { "id": "dm3", "text": "Danh mục 3", "price": 123000 },
+  { "id": "dm4", "text": "Danh mục 4", "price": 445000 },
+  { "id": "dm5", "text": "Danh mục 5", "price": 357000 },
+  { "id": "dm6", "text": "Danh mục 6", "price": 538000 },
+]
