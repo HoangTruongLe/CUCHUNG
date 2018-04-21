@@ -11,37 +11,52 @@
     <script type="text/javascript" src="assets/js/select2.full.min.js"></script>
     <script type="text/javascript" src="assets/js/autoNumeric.min.js"></script>
     <script type="text/javascript" src="assets/js/dexie.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="assets/js/Chart.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="assets/js/dataTables.bootstrap4.js"></script>
+    <script type="text/javascript" src="assets/js/sb-admin.min.js"></script>
+    <script type="text/javascript" src="assets/js/sb-admin-datatables.min.js"></script>
+    <script type="text/javascript" src="assets/js/sb-admin-charts.min.js"></script>
+
+
     <script type="text/javascript" src="data.json"></script>
+    <script type="text/javascript" src="assets/js/utilities.js"></script>
     <script type="text/javascript" src="assets/js/index.js"></script>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+    <link href="assets/css/fontawesome-all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="assets/css/sb-admin.css">
     <link rel="stylesheet" href="assets/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
 
+
     <style type="text/css" media="print">
-      @page { size: landscape; }
+      @page { size: landscape; margin: 0mm; }
       @media print {
         .noprint {display:none;}
       }
     </style>
     <title>DNTN Cúc Hùng</title>
   </head>
-  <body>
+  <body class="sticky-footer bg-light" id="page-top">
     <div class="container-fluid">
       <div class="row" style="margin-top:10px; margin-bottom: 20px">
-
         <div class="col-lg-7 col-sm-6">
           <div class="row">
-            <h3 class="col-lg-7 col-sm-12">Báo cáo công nợ</h3>
+            <h3 class="col-lg-7 col-sm-12">BÁO CÁO CÔNG NỢ</h3>
             <div class="col-lg-5 col-sm-6 noprint">
-              <ul class="nav nav-tabs tabs-bordered">
-                <li class="nav-item">
-                  <a href="#cal_tool" data-toggle='tab' class="nav-link active btn-info">Bảng tính</a>
+              <ul class="nav nav-tabs tabs-bordered text-center" style="font-size: 12px">
+                <li class="nav-item" style="width: 33%">
+                  <a href="#cal_tool" data-toggle='tab' class="nav-link active btn-info">Tính lãi</a>
                 </li>
-                <li class="nav-item">
-                  <a href="#product_management" data-toggle='tab' class="nav-link btn-secondary">Danh mục</a>
+                <li class="nav-item" style="width: 33%; margin-left: 1px">
+                  <a href="#coffee_tool" data-toggle='tab' class="nav-link btn-secondary">Cà phê</a>
+                </li>
+                <li class="nav-item" style="width: 33%; margin-left: 1px">
+                  <a href="#management" data-toggle='tab' class="nav-link btn-secondary">Quản lý</a>
                 </li>
               </ul>
             </div>
@@ -56,45 +71,49 @@
           <button type="button" class="btn btn-warning" onClick="import_data_from_json()" name="button">↱↲</button>
         </div>
       </div>
+      <hr style="margin-top: -15px">
       <div class="tab-content">
-        <div class="tab-pane active" id="cal_tool">
+        <div class="tab-pane" id="cal_tool" style="font-size: 13px">
           <div class="row">
-            <div class="col-4">
+            <div class="col-lg-4 col-md-4">
               <div class="form-group row">
-                <label for="customer_name" class="col-lg-4 col-sm-6 col-form-label">Tên Khách Hàng</label>
-                <div class="col-lg-8 col-sm-6">
+                <label for="customer_name" class="col-lg-4 col-sm-5 col-form-label">Tên Khách Hàng</label>
+                <div class="col-lg-8 col-sm-7">
                   <input type="text" name="customer_name" class="form-control" value="">
                 </div>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-lg-3 col-md-4">
               <div class="form-group row">
-                <label for="phone_number" class="col-lg-3 col-md-4 col-form-label">Điện Thoại</label>
-                <div class="col-lg-9 col-md-8">
+                <label for="phone_number" class="col-lg-4 col-sm-4 col-form-label">Điện Thoại</label>
+                <div class="col-lg-8 col-sm-8">
                   <input type="text" name="phone_number" class="form-control" value="">
                 </div>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-lg-4 col-md-4">
               <div class="form-group row">
-                <label for="address" class="col-3 col-form-label">Địa chỉ</label>
-                <div class="col-9">
+                <label for="address" class="col-lg-3 col-sm-3 col-form-label">Địa chỉ</label>
+                <div class="col-lg-9 col-sm-9">
                   <input type="text" name="address" class="form-control" value="">
                 </div>
               </div>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn btn-primary noprint" name="button">Thêm</button>
             </div>
           </div>
           <table class="table table-bordered noprint">
             <thead>
               <th class="text-center" style="width: 7%">Phương thức</th>
-              <th class="text-center" style="width: 8%">Ngày bắt đầu</th>
-              <th class="text-center" style="width: 8%">Ngày kết thúc</th>
+              <th class="text-center" style="width: 8%">Ngày ghi</th>
+              <th class="text-center" style="width: 8%">Ngày tính</th>
               <th class="text-center" style="width: 2%">S.ngày</th>
               <th class="text-center" style="width: 20%">Danh mục</th>
               <th class="text-center" style="width: 10%">Đơn giá</th>
               <th class="text-center" style="width: 5%">Số lượng</th>
               <th class="text-center" style="width: 7%">DVT</th>
-              <th class="text-center" style="width: 6%">Lãi(%/ngày)</th>
+              <th class="text-center" style="width: 6%">Lãi</th>
             </thead>
             <tbody>
               <tr>
@@ -145,8 +164,8 @@
           <table class="table table-bordered table-striped table-hover">
             <thead>
               <th class="text-center noprint" style="width: 1%">Xoá</th>
-              <th class="text-center" style="width: 10%">Ngày bắt đầu</th>
-              <th class="text-center" style="width: 10%">Ngày kết thúc</th>
+              <th class="text-center" style="width: 10%">Ngày ghi</th>
+              <th class="text-center" style="width: 10%">Ngày tính</th>
               <th class="text-center" style="width: 5%">S.ngày</th>
               <th class="text-center" style="width: 10%">Danh mục</th>
               <th class="text-center" style="width: 4%">SL</th>
@@ -172,17 +191,10 @@
             </tbody>
           </table>
         </div>
-        <div class="tab-pane" id="product_management">
+
+        <div class="tab-pane" id="coffee_tool">
           <div class="col-12">
             <div class="row">
-              <div class="col-4">
-                <div class="form-group row">
-                  <label for="customer_name" class="col-lg-4 col-sm-6 col-form-label">Mã danh mục</label>
-                  <div class="col-lg-8 col-sm-6">
-                    <input type="text" id="ma_danh_muc" name="customer_name" class="form-control" value="">
-                  </div>
-                </div>
-              </div>
               <div class="col-4">
                 <div class="form-group row">
                   <label for="phone_number" class="col-lg-4 col-md-4 col-form-label">Tên danh mục</label>
@@ -200,9 +212,7 @@
                 </div>
               </div>
               <div class="col-1">
-                <button type="button" onClick="import_data_to_product_table()" class="btn btn-primary" name="button">Thêm
-
-                </button>
+                <button type="button" onClick="import_data_to_product_table()" class="btn btn-primary" name="button">Thêm</button>
               </div>
             </div>
             <div class="row">
@@ -210,14 +220,141 @@
                 <thead>
                   <th class="text-center" style="width: 10%">Xoá</th>
                   <th class="text-center" style="width: 10%">STT</th>
-                  <th class="text-center" style="width: 10%">Mã Danh Mục</th>
                   <th class="text-center" style="width: 20%">Tên Danh Mục</th>
                   <th class="text-center" style="width: 20%">Giá</th>
-                  <th class="text-center" style="width: 30%"></th>
+                  <th class="text-center" style="width: 40%"></th>
                 </thead>
                 <tbody id="product_table">
                 </tbody>
               </table>
+            </div>
+            <div class="row">
+              <select class="form-control js-example-tags">
+                <option selected="selected">orange</option>
+                <option>white</option>
+                <option>purple</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane active" id="management">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light static-top" id="mainNav" >
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="nav navbar-nav navbar-sidenav" id="exampleAccordion" style="margin-top: 0px">
+                <li class="nav-item" data-placement="right" title="Tables">
+                  <a class="nav-link" href="#customer_tab" data-toggle='tab'>
+                    <i class="fa fa-fw fa-address-book"></i>
+                    <span id='' class="nav-link-text">Khách hàng</span>
+                  </a>
+                </li>
+                <li class="nav-item" data-placement="right" title="Tables">
+                  <a class="nav-link" href="#product_tab" data-toggle='tab'>
+                    <i class="fa fa-fw fa-table"></i>
+                    <span class="nav-link-text">Danh mục</span>
+                  </a>
+                </li>
+                <li class="nav-item" data-placement="right" title="Tables">
+                  <a class="nav-link" href="#record_tab" data-toggle='tab'>
+                    <i class="fa fa-fw fa-archive"></i>
+                    <span class="nav-link-text">Bản tính</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <div class="content-wrapper">
+            <div class="container-fluid">
+              <!-- Breadcrumbs-->
+              <!-- <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">My Dashboard</li>
+              </ol> -->
+              <div class="tab-content">
+                <div class="tab-pane active" id='customer_tab'>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4">
+                      <div class="form-group row">
+                        <label for="customer_name" class="col-lg-2 col-sm-5 col-form-label">Tên</label>
+                        <div class="col-lg-10 col-sm-7">
+                          <input type="text" name="customer_name" class="form-control" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                      <div class="form-group row">
+                        <label for="phone_number" class="col-lg-4 col-sm-4 col-form-label">Điện thoại</label>
+                        <div class="col-lg-8 col-sm-8">
+                          <input type="text" name="phone_number" class="form-control" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                      <div class="form-group row">
+                        <label for="address" class="col-lg-3 col-sm-3 col-form-label">Địa chỉ</label>
+                        <div class="col-lg-9 col-sm-9">
+                          <input type="text" name="address" class="form-control" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-1">
+                      <button type="button" class="btn btn-primary noprint" name="button">Thêm</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                          <th class="text-center" style="width: 10%">Xoá</th>
+                          <th class="text-center" style="width: 10%">STT</th>
+                          <th class="text-center" style="width: 20%">Tên Khách Hàng</th>
+                          <th class="text-center" style="width: 20%">Điện Thoại</th>
+                          <th class="text-center" style="width: 40%">Địa chỉ</th>
+                        </thead>
+                        <tbody id="customer_table">
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="tab-pane" id="product_tab">
+                  prod
+                </div>
+                <div class="tab-pane" id='record_tab'>
+                  management
+                </div>
+              </div>
+              <!-- code go there -->
+            </div>
+            <footer class="sticky-footer" style="width: calc(100% - 265px);">
+              <div class="container">
+                <div class="text-center">
+                  <small>Copyright © Your Website 2018</small>
+                </div>
+              </div>
+            </footer>
+            <a class="scroll-to-top rounded" href="#page-top">
+              <i class="fa fa-angle-up"></i>
+            </a>
+            <!-- Logout Modal-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
