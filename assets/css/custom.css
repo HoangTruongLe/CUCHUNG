@@ -11,3 +11,27 @@ td{
 .current_date_time{
   margin-top: 30px;
 }
+.form-control-small{
+  height: 28px;
+}
+.btn-small{
+  height: 28px;
+  padding-top: 0px;
+}
+
+.note{
+  position: relative;
+}
+
+.note .editable-container{
+  position: absolute;
+  left: -100%;
+}
+
+.note .editable-container .editable-submit{
+  height: 30px;
+}
+
+.note .editable-container .editable-cancel{
+  height: 30px;
+}

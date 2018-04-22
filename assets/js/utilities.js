@@ -15,7 +15,11 @@ Number.prototype.formatMoney = function(c, d, t){
  String.prototype.isLatin=function(){return this==this.latinise()}
 
  function remove_all_currency_mark(repString){
-   return repString.replace(/,/g , "");
+   if(repString){
+     return repString.replace(/,/g , "");
+   }else {
+     return ""
+   }
  }
 
  function fparse(val){
@@ -49,16 +53,16 @@ Number.prototype.formatMoney = function(c, d, t){
  function initialize_database(){
    var db = new Dexie("productDatabase");
    db.version(1).stores({
-     products: "++prod_id,id,name,price,text",
-     deb_records: "++rec_id,id,name,cus_id,cus_name",
-     deb_details: "++detail_id,id,method,start_date,end_date,diffDays,product_id,product_name,price,prod_num,dvt,note,deb_rate,deb_num,deb_interest,deb_total",
-     
+     products: "++prod_id,id,text,price",
+     customers: "++cus_id,id,text,phone,address",
+     records: "++rec_id,id,text,cus_id,cus_text",
+     details: "++detail_id,id,rec_id,method,start_date,end_date,diffDays,prod_id,prod_text,price,prod_num,dvt,note,deb_rate,deb_num,deb_interest,deb_total",
    });
 
    return db
  }
 
- function init_select2(){
+ function init_select2_dvt(){
    var dvt = [
      { id: 1, text: 'Kg' },
      { id: "1.0", text: 'Bao' },
@@ -68,21 +72,21 @@ Number.prototype.formatMoney = function(c, d, t){
      {id: 50,text: 'Bao 50Kg'},
      {id: 1000,text: 'Tấn'}
    ]
+   $('#cal_product_dvt').select2({
+     data: dvt,
+     allowClear: true,
+     placeholder: "Chọn DVT"
+   })
+ }
 
+ function init_select2_interest_rate(){
    var interest_rate = [
      {id: 0.026667, text: '0.8%'},
      {id: 0.033333, text: '1.0%'},
      {id: 0.04, text: '1.2%'},
      {id: 0.05, text: '1.5%'},
    ]
-
-   $('#dvt').select2({
-     data: dvt,
-     allowClear: true,
-     placeholder: "Chọn DVT"
-   })
-
-   $('#debt_rate').select2({
+   $('#cal_product_debt_rate').select2({
      data: interest_rate,
      allowClear: true,
      placeholder: "Chọn lãi xuất"
@@ -90,8 +94,8 @@ Number.prototype.formatMoney = function(c, d, t){
  }
 
  function init_datepicker(){
-   $('#start_date').datepicker({autoclose: true});
-   $('#end_date').datepicker({
+   $('#cal_product_start_date').datepicker({autoclose: true});
+   $('#cal_product_end_date').datepicker({
        autoclose: true
      },
    ).datepicker("setDate", new Date());
@@ -99,19 +103,21 @@ Number.prototype.formatMoney = function(c, d, t){
 
  function cal_diff_days_on_change(){
    $('.datepicker').on("change", function(){
-     if ($("#start_date").val() && $("#end_date").val()){
-       $('#diffDays').html(cal_diff_days($("#start_date").val(), $("#end_date").val()))
+     if ($("#cal_product_start_date").val() && $("#cal_product_end_date").val()){
+       $('#cal_product_diffDays').html(cal_diff_days($("#cal_product_start_date").val(), $("#cal_product_end_date").val()))
      }
    })
  }
 
  function cal_diff_days(start_date, end_date){
    var oneDay = 24*60*60*1000;
+   var reverser = 1;
    var spt_start_date = start_date.split('/')
    var spt_end_date = end_date.split('/')
    var first_date = new Date(spt_start_date[2], spt_start_date[1] - 1, spt_start_date[0]);
    var last_date = new Date(spt_end_date[2], spt_end_date[1] - 1, spt_end_date[0]);
-   var diffDays = Math.round(Math.abs((first_date.getTime() - last_date.getTime())/(oneDay)));
+   if (first_date > last_date) reverser = -1
+   var diffDays = Math.round(Math.abs((first_date.getTime() - last_date.getTime())/(oneDay)))*reverser;
    return diffDays
  }
 
@@ -149,8 +155,6 @@ Number.prototype.formatMoney = function(c, d, t){
        tong_lai += fparse($(this).find('.tien_lai').html())
        tong_tra += fparse($(this).find('.tra_giua_ky').html())
        tong_thanh_toan = tong_goc + tong_tra + tong_lai
-       console.log('tong goc' + tong_goc)
-       console.log('tong lai' + tong_lai)
        $('#td_tong_goc').html(tong_goc.formatMoney(0, '.', ','))
        $('#td_tong_lai').html(tong_lai.formatMoney(0, '.', ','))
        $('#td_tong_tra').html(tong_tra.formatMoney(0, '.', ','))

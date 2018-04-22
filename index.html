@@ -7,21 +7,26 @@
 
     <script type="text/javascript" src="assets/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript" src="assets/i18n/bootstrap-datepicker.vi.min.js"></script>
-    <script src="assets/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <script type="text/javascript" src="assets/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="assets/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script type="text/javascript" src="assets/js/select2.full.min.js"></script>
     <script type="text/javascript" src="assets/js/autoNumeric.min.js"></script>
     <script type="text/javascript" src="assets/js/dexie.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.easing.min.js"></script>
-    <script type="text/javascript" src="assets/js/Chart.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="assets/js/dataTables.bootstrap4.js"></script>
     <script type="text/javascript" src="assets/js/sb-admin.min.js"></script>
     <script type="text/javascript" src="assets/js/sb-admin-datatables.min.js"></script>
-    <script type="text/javascript" src="assets/js/sb-admin-charts.min.js"></script>
-
+    <script type="text/javascript" src="assets/js/toastr.min.js"></script>
 
     <script type="text/javascript" src="data.json"></script>
     <script type="text/javascript" src="assets/js/utilities.js"></script>
+    <script type="text/javascript" src="assets/js/management.js"></script>
+    <script type="text/javascript" src="assets/js/customer_management.js"></script>
+    <script type="text/javascript" src="assets/js/product_management.js"></script>
+    <script type="text/javascript" src="assets/js/select2_customer_name_controller.js"></script>
+    <script type="text/javascript" src="assets/js/select2_product_name_controller.js"></script>
+    <script type="text/javascript" src="assets/js/cal_tool.js"></script>
     <script type="text/javascript" src="assets/js/index.js"></script>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -30,6 +35,7 @@
     <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="assets/css/sb-admin.css">
     <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/toastr.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
 
 
@@ -50,10 +56,10 @@
             <div class="col-lg-5 col-sm-6 noprint">
               <ul class="nav nav-tabs tabs-bordered text-center" style="font-size: 12px">
                 <li class="nav-item" style="width: 33%">
-                  <a href="#cal_tool" data-toggle='tab' class="nav-link active btn-info">Tính lãi</a>
+                  <a href="#cal_tool" data-toggle='tab' class="nav-link btn-info">Tính lãi</a>
                 </li>
                 <li class="nav-item" style="width: 33%; margin-left: 1px">
-                  <a href="#coffee_tool" data-toggle='tab' class="nav-link btn-secondary">Cà phê</a>
+                  <a href="#coffee_tool" data-toggle='tab' class="nav-link btn-secondary" style="background-color: rgb(105,79,58)">Cà phê</a>
                 </li>
                 <li class="nav-item" style="width: 33%; margin-left: 1px">
                   <a href="#management" data-toggle='tab' class="nav-link btn-secondary">Quản lý</a>
@@ -73,13 +79,17 @@
       </div>
       <hr style="margin-top: -15px">
       <div class="tab-content">
-        <div class="tab-pane" id="cal_tool" style="font-size: 13px">
+        <div class="tab-pane active" id="cal_tool" style="font-size: 13px">
           <div class="row">
             <div class="col-lg-4 col-md-4">
               <div class="form-group row">
                 <label for="customer_name" class="col-lg-4 col-sm-5 col-form-label">Tên Khách Hàng</label>
                 <div class="col-lg-8 col-sm-7">
-                  <input type="text" name="customer_name" class="form-control" value="">
+                  <select id="select2_customer_name">
+                    <option></option>
+                  </select>
+                  <input type="hidden" id="cal_customer_id" >
+                  <input type="hidden" id="cal_customer_name" >
                 </div>
               </div>
             </div>
@@ -87,20 +97,20 @@
               <div class="form-group row">
                 <label for="phone_number" class="col-lg-4 col-sm-4 col-form-label">Điện Thoại</label>
                 <div class="col-lg-8 col-sm-8">
-                  <input type="text" name="phone_number" class="form-control" value="">
+                  <input type="text" id="cal_customer_phone" class="form-control form-control-small" value="">
                 </div>
               </div>
             </div>
             <div class="col-lg-4 col-md-4">
               <div class="form-group row">
-                <label for="address" class="col-lg-3 col-sm-3 col-form-label">Địa chỉ</label>
-                <div class="col-lg-9 col-sm-9">
-                  <input type="text" name="address" class="form-control" value="">
+                <label for="address" class="col-lg-2 col-sm-3 col-form-label">Địa chỉ</label>
+                <div class="col-lg-10 col-sm-9">
+                  <input type="text" id="cal_customer_address" class="form-control form-control-small" value="">
                 </div>
               </div>
             </div>
             <div class="col-1">
-              <button type="button" class="btn btn-primary noprint" name="button">Thêm</button>
+              <button type="button" onclick="save_customer_data()" class="btn btn-primary btn-small noprint" name="button">+</button>
             </div>
           </div>
           <table class="table table-bordered noprint">
@@ -109,8 +119,8 @@
               <th class="text-center" style="width: 8%">Ngày ghi</th>
               <th class="text-center" style="width: 8%">Ngày tính</th>
               <th class="text-center" style="width: 2%">S.ngày</th>
-              <th class="text-center" style="width: 20%">Danh mục</th>
-              <th class="text-center" style="width: 10%">Đơn giá</th>
+              <th class="text-center" style="width: 14%">Danh mục</th>
+              <th class="text-center" style="width: 16%">Đơn giá</th>
               <th class="text-center" style="width: 5%">Số lượng</th>
               <th class="text-center" style="width: 7%">DVT</th>
               <th class="text-center" style="width: 6%">Lãi</th>
@@ -127,21 +137,23 @@
                     <label class="custom-control-label pt-1" for="customRadioInline2">Trả</label>
                   </div>
                 </td>
-                <td class="ngay_no text-center"><input onchange="cal_total_val()" id="start_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
-                <td class="ngay_tinh text-center"><input onchange="cal_total_val()" id="end_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
-                <td class="so_ngay text-center"><strong><span id="diffDays"> </span></strong></td>
-                <td class="ten_mat_hang text-center">
-                  <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                      <input id="product_name" class="col-10 text-center input-group-text" type="text" name="" value="">
-                    </div>
-                    <input onchange="cal_total_val()" id="product_name_mount" class="text-left form-control" style="" type="text" name="" value="">
+                <td class="ngay_no text-center"><input onchange="cal_total_val()" id="cal_product_start_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
+                <td class="ngay_tinh text-center"><input onchange="cal_total_val()" id="cal_product_end_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
+                <td class="so_ngay text-center"><strong><span id="cal_product_diffDays"> </span></strong></td>
+                <td colspan="2" class="ten_mat_hang text-center">
+                  <div class="form-inline">
+                    <select id="select2_product_name" class="text-center" >
+                      <option></option>
+                    </select>
+                    <input type="hidden" id="cal_product_id" >
+                    <input type="hidden" id="cal_product_name" >
+                    <input onchange="cal_total_val()" style="width: 45%" id="cal_product_price" class="form-control form-control-small text-center" >
+                    <button type="button" onclick="save_product_data()" style="width: 7%" class="ml-1 btn btn-primary btn-small noprint" name="button">+</button>
                   </div>
                 </td>
-                <td class="don_gia text-right"><input onchange="cal_total_val()" id="price" class="col-12 text-center" style="" type="text" name="" value=""></td>
-                <td class="so_luong text-center"><input onchange="cal_total_val()" id="quantity" class="col-12 text-center" style="" type="text" name="" value=""></td>
-                <td class="don_vi_tinh text-center"><input onchange="cal_total_val()" id="dvt" class="col-12 text-center" style="" type="text" name="" value=""></td>
-                <td class="lai_xuat text-center"><input onchange="cal_total_val()" id="debt_rate" class="col-12 text-center" style="" type="text" name="" value=""></td>
+                <td class="so_luong text-center"><input onchange="cal_total_val()" id="cal_product_quantity" class="text-center form-control form-control-small"></td>
+                <td class="don_vi_tinh text-center"><input onchange="cal_total_val()" id="cal_product_dvt" class="text-center form-control form-control-small"></td>
+                <td class="lai_xuat text-center"><input onchange="cal_total_val()" id="cal_product_debt_rate" class="text-center form-control form-control-small"></td>
               </tr>
             </tbody>
           </table>
@@ -154,7 +166,7 @@
             <div class="col-6">
               <div class="row">
                 <h6 class="col-3">Ghi chú:</h6>
-                <textarea class="col-9" id="invoice_note" name="name" rows="3" cols="80"></textarea>
+                <textarea class="col-9 form-control" id="invoice_note" name="name" rows="3" cols="80"></textarea>
               </div>
             </div>
             <div class="col-2 text-right">
@@ -195,40 +207,6 @@
         <div class="tab-pane" id="coffee_tool">
           <div class="col-12">
             <div class="row">
-              <div class="col-4">
-                <div class="form-group row">
-                  <label for="phone_number" class="col-lg-4 col-md-4 col-form-label">Tên danh mục</label>
-                  <div class="col-lg-8 col-md-8">
-                    <input type="text" id="ten_danh_muc" name="phone_number" class="form-control" value="">
-                  </div>
-                </div>
-              </div>
-              <div class="col-3">
-                <div class="form-group row">
-                  <label for="address" class="col-3 col-form-label">Giá</label>
-                  <div class="col-9">
-                    <input type="text" id="gia_danh_muc" name="address" class="form-control text-right" value="">
-                  </div>
-                </div>
-              </div>
-              <div class="col-1">
-                <button type="button" onClick="import_data_to_product_table()" class="btn btn-primary" name="button">Thêm</button>
-              </div>
-            </div>
-            <div class="row">
-              <table class="table table-bordered table-striped table-hover">
-                <thead>
-                  <th class="text-center" style="width: 10%">Xoá</th>
-                  <th class="text-center" style="width: 10%">STT</th>
-                  <th class="text-center" style="width: 20%">Tên Danh Mục</th>
-                  <th class="text-center" style="width: 20%">Giá</th>
-                  <th class="text-center" style="width: 40%"></th>
-                </thead>
-                <tbody id="product_table">
-                </tbody>
-              </table>
-            </div>
-            <div class="row">
               <select class="form-control js-example-tags">
                 <option selected="selected">orange</option>
                 <option>white</option>
@@ -237,7 +215,7 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane active" id="management">
+        <div class="tab-pane" id="management">
           <nav class="navbar navbar-expand-lg navbar-light bg-light static-top" id="mainNav" >
             <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="nav navbar-nav navbar-sidenav" id="exampleAccordion" style="margin-top: 0px">
@@ -278,7 +256,7 @@
                       <div class="form-group row">
                         <label for="customer_name" class="col-lg-2 col-sm-5 col-form-label">Tên</label>
                         <div class="col-lg-10 col-sm-7">
-                          <input type="text" name="customer_name" class="form-control" value="">
+                          <input type="text" id="tab_cus_name" name="customer_name" class="form-control" value="">
                         </div>
                       </div>
                     </div>
@@ -286,7 +264,7 @@
                       <div class="form-group row">
                         <label for="phone_number" class="col-lg-4 col-sm-4 col-form-label">Điện thoại</label>
                         <div class="col-lg-8 col-sm-8">
-                          <input type="text" name="phone_number" class="form-control" value="">
+                          <input type="text" id="tab_cus_phone" name="phone_number" class="form-control" value="">
                         </div>
                       </div>
                     </div>
@@ -294,12 +272,12 @@
                       <div class="form-group row">
                         <label for="address" class="col-lg-3 col-sm-3 col-form-label">Địa chỉ</label>
                         <div class="col-lg-9 col-sm-9">
-                          <input type="text" name="address" class="form-control" value="">
+                          <input type="text" id='tab_cus_address' name="address" class="form-control" value="">
                         </div>
                       </div>
                     </div>
                     <div class="col-1">
-                      <button type="button" class="btn btn-primary noprint" name="button">Thêm</button>
+                      <button type="button" onclick="get_and_import_from_cus_tab()" class="btn btn-primary noprint" name="button">Thêm</button>
                     </div>
                   </div>
                   <div class="row">
@@ -319,8 +297,43 @@
 
                   </div>
                 </div>
-                <div class="tab-pane" id="product_tab">
-                  prod
+                <div class="tab-pane" id='product_tab'>
+                  <div class="row">
+                    <div class="col-lg-6 col-md-4">
+                      <div class="form-group row">
+                        <label for="product_name" class="col-lg-3 col-sm-5 col-form-label">Tên Danh Mục</label>
+                        <div class="col-lg-9 col-sm-7">
+                          <input type="text" id="tab_prod_name" name="product_name" class="form-control" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                      <div class="form-group row">
+                        <label for="product_price" class="col-lg-2 col-sm-4 col-form-label">Giá</label>
+                        <div class="col-lg-10 col-sm-8">
+                          <input type="text" id="tab_prod_price" name="product_price" class="form-control text-right" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-1">
+                      <button type="button" onclick="get_and_import_from_prod_tab()" class="btn btn-primary noprint" name="button">Thêm</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                          <th class="text-center" style="width: 10%">Xoá</th>
+                          <th class="text-center" style="width: 10%">STT</th>
+                          <th class="text-center" style="width: 40%">Tên Danh Mục</th>
+                          <th class="text-center" style="width: 20%">Giá</th>
+                          <th class="text-center" style="width: 20%"></th>
+                        </thead>
+                        <tbody id="product_table">
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
                 <div class="tab-pane" id='record_tab'>
                   management
@@ -331,7 +344,7 @@
             <footer class="sticky-footer" style="width: calc(100% - 265px);">
               <div class="container">
                 <div class="text-center">
-                  <small>Copyright © Your Website 2018</small>
+                  <small>Copyright © Truong Le - htr.lee@gmail.com - 0974156062</small>
                 </div>
               </div>
             </footer>
