@@ -12,19 +12,10 @@ function cal_total_val(){
   $("#tong_thanh_toan").html(result.tong_thanh_toan.formatMoney(0, '.', ','))
 }
 
-//add method
-function get_total_result(interest_rate, diffDays, price, dvt, quantity){
-  var total_quantity =  dvt * quantity
-  if( !dvt || !quantity) total_quantity = 1
-  var no_goc = price * total_quantity
-  var tien_lai = (no_goc * interest_rate * diffDays) / 100
-  var tong_thanh_toan = no_goc + tien_lai
-  return {
-    no_goc: no_goc,
-    tien_lai: tien_lai,
-    tong_thanh_toan: tong_thanh_toan,
-    total_quantity: total_quantity
-  }
+function save_calculated_data(){
+  db.customers.where('cus_id').equals(cus_id).toArray().then(function(result){
+    $("#cal_customer_id").val(result[0].cus_id)
+  })
 }
 
 function get_data_to_import(){
@@ -39,7 +30,9 @@ function get_data_to_import(){
     diffDays:  $('#cal_product_diffDays').html(),
     name: $('#select2_product_name').select2('data')[0].text,
     price: fparse($('#cal_product_price').val()),
-    note: $('#invoice_note').val()
+    note: $('#invoice_note').val(),
+    interest_rate: fparse($('#cal_product_debt_rate').val()),
+    isPay: isPay()
   }
 }
 
@@ -76,15 +69,18 @@ function init_cal_tool_note_editable(el){
   });
 }
 
+
+
 function render_to_cal_table(data){
-  var formated_total_quantity = data.total_quantity.formatMoney('0', '.', ',')
-  var tong = data.tong_thanh_toan
-  if(!data.total_quantity){
+  var total_quantity = data.quantity * data.dvt
+  var formated_total_quantity = total_quantity.formatMoney('0', '.', ',')
+  var tong = data.no_goc + data.tien_lai
+  if(!total_quantity){
     formated_total_quantity = ''
   }
 
   var middle = ""
-  if($("input[id='customRadioInline2']:checked").length == 1 ){
+  if(isPay()){
     middle = `<td class="text-right no_goc"></td>
               <td class="text-right tra_giua_ky btn-warning">`+ (data.no_goc * -1).formatMoney('0', '.', ',') +`</td>
               <td class="text-right tien_lai btn-warning">`+ (data.tien_lai * -1).formatMoney('0', '.', ',') +`</td>`
@@ -100,37 +96,62 @@ function render_to_cal_table(data){
     <td class="text-center noprint"><button type="button" onclick="$(this).closest('tr').remove()" class="close" style="float: none">&times;</button></td>
     <td class="text-center"><span class="tool_start_date" id="cal_tool_start_date_`+ data.rec_id +`">`+ data.start_date +`</span></td>
     <td class="text-center"><span class="tool_end_date" id="cal_tool_end_date_`+ data.rec_id +`">`+ data.end_date +`</span></td>
-    <td class="text-center"><span class="tool_diff_date">`+ data.diffDays +`</span></td>
+    <td class="text-center"><span class="tool_diff_date" id="cal_tool_diff_date_`+ data.rec_id +`">`+ data.diffDays +`</span></td>
     <td class="text-left">`+ data.name +`</td>
-    <td class="text-center"><span class="tool_quantity" id="cal_tool_quantity_`+ data.rec_id +`">`+ formated_total_quantity +`</span></td>
+    <td class="text-center"><span class="tool_total_quantity" id="cal_tool_total_quantity_`+ data.rec_id +`">`+ formated_total_quantity +`</span></td>
     <td class="text-right"><span class="tool_price" id="cal_tool_price_`+ data.rec_id +`">`+ data.price.formatMoney('0', '.', ',') +`</span></td>
     `+ middle +`
     <td class="text-right tong"><span class="tool_total">`+ tong.formatMoney('0', '.', ',') +`</span></td>
     <td class="text-center note"><span id="cal_tool_note_`+ data.rec_id +`">`+ data.note +`</span></td>
+    <td class="text-center note hidden"><span id="cal_tool_interest_date_`+ data.rec_id +`" class="tool_interest_rate">`+ data.interest_rate +`</span></td>
+    <td class="text-center note hidden"><span id="cal_tool_is_pay_`+ data.rec_id +`" class="tool_is_pay">`+ data.isPay +`</span></td>
+    <td class="text-center note hidden"><span id="cal_tool_quantity_`+ data.rec_id +`" class="tool_quantity">`+ data.quantity +`</span></td>
+    <td class="text-center note hidden"><span id="cal_tool_dvt_`+ data.rec_id +`" class="tool_dvt">`+ data.dvt +`</span></td>
   </tr>`
   $('#detb_table_body').append(insert_text);
   init_cal_tool_date_editable($('#cal_tool_start_date_' + data.rec_id))
   init_cal_tool_date_editable($('#cal_tool_end_date_' + data.rec_id))
   init_number_editable($('#cal_tool_price_'+ data.rec_id))
-  init_number_editable($('#cal_tool_quantity_'+ data.rec_id))
+  init_number_editable($('#cal_tool_total_quantity_'+ data.rec_id))
   init_cal_tool_note_editable($('#cal_tool_note_'+ data.rec_id))
-  date_observer();
-  quantity_observer();
+  init_observers(data);
 }
 
-function date_observer(){
-  $('.tool_start_date').bind('DOMSubtreeModified', function(){
-    var diffdays = cal_diff_days($(".tool_start_date").html(), $(".tool_end_date").html())
+function init_observers(data){
+  $('#cal_tool_start_date_'+ data.rec_id).bind('DOMSubtreeModified', function(){
+    var diffdays = cal_diff_days($(this).html(), $(this).closest("tr").find(".tool_end_date").html())
     $(this).closest("tr").find('.tool_diff_date').html(diffdays)
   })
-  $('.tool_end_date').bind('DOMSubtreeModified', function(){
-    var diffdays = cal_diff_days($(".tool_start_date").html(), $(".tool_end_date").html())
+  $('#cal_tool_end_date_'+ data.rec_id).bind('DOMSubtreeModified', function(){
+    var diffdays = cal_diff_days($(this).closest("tr").find(".tool_start_date").html(), $(this).html())
     $(this).closest("tr").find('.tool_diff_date').html(diffdays)
+  })
+  $('#cal_tool_total_quantity_'+ data.rec_id).bind('DOMSubtreeModified', function(){
+    recalculate_on_row(this)
+  })
+  $('#cal_tool_price_'+ data.rec_id).bind('DOMSubtreeModified', function(){
+    recalculate_on_row(this)
+  })
+  $('#cal_tool_diff_date_'+ data.rec_id).bind('DOMSubtreeModified', function(){
+    recalculate_on_row(this)
   })
 }
 
-function quantity_observer(){
-  $('.tool_quantity').bind('DOMSubtreeModified', function(){
-
-  })
+function recalculate_on_row(row){
+  var result = get_total_result(
+    fparse($(row).closest("tr").find('.tool_interest_rate').html()),
+    fparse($(row).closest("tr").find('.tool_diff_date').html()),
+    fparse($(row).closest("tr").find('.tool_price').html()),
+    1,
+    fparse($(row).closest("tr").find(".tool_total_quantity").html())
+  )
+  if ($(row).closest("tr").find(".tool_is_pay").html() == 'true'){
+    $(row).closest("tr").find('.tra_giua_ky').html((-1*result.no_goc).formatMoney('0', '.', ','))
+    $(row).closest("tr").find('.tien_lai').html((-1*result.tien_lai).formatMoney('0', '.', ','))
+    $(row).closest("tr").find('.tool_total').html((-1*result.tong_thanh_toan).formatMoney('0', '.', ','))
+  }else{
+    $(row).closest("tr").find('.no_goc').html(result.no_goc.formatMoney('0', '.', ','))
+    $(row).closest("tr").find('.tien_lai').html(result.tien_lai.formatMoney('0', '.', ','))
+    $(row).closest("tr").find('.tool_total').html(result.tong_thanh_toan.formatMoney('0', '.', ','))
+  }
 }

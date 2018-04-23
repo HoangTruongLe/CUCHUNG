@@ -163,11 +163,32 @@ Number.prototype.formatMoney = function(c, d, t){
    })
  }
 
- function cal_log(){
-   console.log("lai " + interest_rate.toString())
-   console.log("so ngay " + diffDays.toString())
-   console.log("gia " + price.toString())
-   console.log("dvt " + dvt.toString())
-   console.log("sl " + quantity.toString())
-   console.log("=============================")
+ function get_total_result(interest_rate, diffDays, price, dvt, quantity){
+   var total_quantity =  dvt * quantity
+   if( !dvt || !quantity) total_quantity = 1
+   var no_goc = price * total_quantity
+   var tien_lai = (no_goc * interest_rate * diffDays) / 100
+   var tong_thanh_toan = no_goc + tien_lai
+   return {
+     no_goc: no_goc,
+     tien_lai: tien_lai,
+     tong_thanh_toan: tong_thanh_toan,
+     total_quantity: total_quantity
+   }
+ }
+
+ function isPay(){
+   if($("input[id='customRadioInline2']:checked").length == 1 ){
+     return true
+   }else{
+     return false
+   }
+ }
+
+ function remove_empty(str){
+   if(str == "Empty"){
+     return ''
+   }else{
+     return str
+   }
  }

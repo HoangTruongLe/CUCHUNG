@@ -35,3 +35,7 @@ td{
 .note .editable-container .editable-cancel{
   height: 30px;
 }
+
+.hidden{
+   display: none;
+}

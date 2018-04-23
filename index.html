@@ -74,7 +74,8 @@
         <div class="col-lg-2 col-sm-1 text-right noprint">
           <button type="button" class="btn btn-secondary" onClick="window.print();" name="button">In</button>
           <button type="button" class="btn btn-info" onClick="location.reload();" name="button">↻</button>
-          <button type="button" class="btn btn-warning" onClick="import_data_from_json()" name="button">↱↲</button>
+          <button type="button" class="btn btn-warning hidden" onClick="import_data_from_json()" name="button">↱↲</button>
+          <button type="button" class="btn btn-primary" onClick="save_calculated_data()" name="button">Lưu</button>
         </div>
       </div>
       <hr style="margin-top: -15px">
@@ -234,7 +235,7 @@
                 <li class="nav-item" data-placement="right" title="Tables">
                   <a class="nav-link" href="#record_tab" data-toggle='tab'>
                     <i class="fa fa-fw fa-archive"></i>
-                    <span class="nav-link-text">Bản tính</span>
+                    <span class="nav-link-text">Bản ghi</span>
                   </a>
                 </li>
               </ul>
