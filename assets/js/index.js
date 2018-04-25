@@ -24,6 +24,9 @@ $(document).ready(function(){
     init_modal_select2_customer_name();
     $("#cal_rec_id").val("");
     capture_save();
+    $('#cal_tool_rec_modal').on('shown.bs.modal', function() {
+      $("#modal_select2_customer_name").val("").trigger('change')
+    })
   }
 })
 

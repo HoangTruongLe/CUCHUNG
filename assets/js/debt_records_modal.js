@@ -17,9 +17,10 @@ function init_modal_select2_customer_name(){
           render_debt_record(record)
         })
       })
+    }else{
+      get_debt_records();
     }
   });
-  get_debt_records();
 }
 
 function render_debt_record(record){
