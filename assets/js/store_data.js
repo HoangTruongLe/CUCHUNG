@@ -1,6 +1,6 @@
 
 function save_calculated_data(){
-  var cus_id = $("#select2_customer_name").val()
+  var cus_id = $("#cal_customer_cus_id").val()
   var rec_id = fparse($("#cal_rec_id").val())
   var record = {
     rec_id: fparse($("#cal_rec_id").val()),
@@ -17,39 +17,36 @@ function save_calculated_data(){
     rec_type: 1
   }
 
-  if ($("#cal_product_end_date").val()){
-    db.customers.where('id').equals(cus_id).count(function(k){
-      if(k == 1){
-        db.records.where('rec_id').equals(rec_id).count(function(k){
-          if(k == 1){
-            if(confirm("Bạn có thực sự muốn sửa bản ghi này không?")){
-              db.records.where('rec_id').equals(rec_id).modify(record).then(function(){
-                save_debt_details(rec_id)
-                get_debt_records();
-                toastr.success('Sửa thành công!')
-              })
-            }
-          }else{
-            record.id = makeid();
-            delete record["rec_id"]
-            db.records.add(record).then(function(k){
-              $("#cal_rec_id").val(k)
-              save_debt_details(k)
+  db.customers.where('id').equals(cus_id).count(function(k){
+    if(k == 1){
+      db.records.where('rec_id').equals(rec_id).count(function(k){
+        if(k == 1){
+          if(confirm("Bạn có thực sự muốn sửa bản ghi này không?")){
+            db.records.where('rec_id').equals(rec_id).modify(record).then(function(){
+              save_debt_details(rec_id)
               get_debt_records();
-              toastr.success('Thêm thành công')
+              toastr.success('Sửa thành công!')
             })
           }
-        })
-      }else{
-        toastr.error('Thêm hoặc chọn một khách hàng trước khi lưu!')
-      }
-    })
-  }else{
-    toastr.error('Vui lòng nhập ngày tính')
-  }
+        }else{
+          record.id = makeid();
+          delete record["rec_id"]
+          db.records.add(record).then(function(k){
+            $("#cal_rec_id").val(k)
+            save_debt_details(k)
+            get_debt_records();
+            toastr.success('Thêm thành công')
+          })
+        }
+      })
+    }else{
+      toastr.error('Thêm hoặc chọn một khách hàng trước khi lưu!')
+    }
+  })
 }
 
 function save_debt_details(rec_id){
+  db.details.where('rec_id').equals(rec_id).delete()
   $('#detb_table_body > tr').each(function(){
     var debt_rec = {
       isPay: JSON.parse($(this).find('.tool_is_pay').html()),
@@ -70,8 +67,6 @@ function save_debt_details(rec_id){
       tra_giua_ky: fparse($(this).find('.tra_giua_ky').html()),
       id: makeid(),
     }
-    db.details.where('rec_id').equals(rec_id).delete().then(function(k){
-      db.details.add(debt_rec)
-    })
+    db.details.add(debt_rec)
   })
 }

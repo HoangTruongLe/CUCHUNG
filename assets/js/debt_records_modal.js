@@ -8,12 +8,14 @@ function init_modal_select2_customer_name(){
       data: val,
     })
   });
-  $('#modal_select2_customer_name').on('select2:select', function (e) {
+  $('#modal_select2_customer_name').on('change', function (e) {
     var value = $('#modal_select2_customer_name').select2('data')
     $('#debt_rec_table').html("")
     if (value[0].id){
-      db.records.where('cus_id').equals(value[0].id).each(function(record){
-        render_debt_record(record)
+      db.records.where('cus_id').equals(value[0].id).reverse().sortBy("rec_id").then(function(records){
+        records.forEach(function(record){
+          render_debt_record(record)
+        })
       })
     }
   });
@@ -50,9 +52,14 @@ function select_debt_row(rec_id){
     $("#select2_customer_name").val(record.cus_id.toString()).trigger("change");
     $("#cal_customer_phone").val(record.cus_phone.toString())
     $("#cal_customer_address").val(record.cus_address.toString())
+    $("#cal_rec_id").val(record.rec_id)
+    $("#td_tong_goc").html('0')
+    $("#td_tong_tra").html('0')
+    $("#td_tong_lai").html('0')
+    $("#td_tong_thanhtoan").html('0')
     $('#cal_tool_rec_modal').modal('hide');
   })
-  $('#detb_table_body').append("");
+  $('#detb_table_body').html("");
   db.details.where('rec_id').equals(rec_id).each(function(record){
     record.rec_id = makeid()
     render_to_cal_table(record)

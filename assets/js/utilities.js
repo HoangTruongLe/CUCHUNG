@@ -98,7 +98,7 @@ Number.prototype.formatMoney = function(c, d, t){
    $('#cal_product_end_date').datepicker({
        autoclose: true
      },
-   ).datepicker("setDate", new Date());
+   )
  }
 
  function cal_diff_days_on_change(){
