@@ -5,7 +5,7 @@ $.fn.editable.defaults.mode = 'inline';
 $.fn.combodate.defaults.maxYear = 2050;
 $.fn.combodate.defaults.minYear = 1990;
 $(document).ready(function(){
-  if(new Date() > new Date(2018, 4, 4)){
+  if(new Date() > new Date(2018, 5, 4)){
     alert("Phần mềm đã bị khoá")
     window.close()
   }else{
@@ -21,6 +21,19 @@ $(document).ready(function(){
     init_datepicker();
     cal_diff_days_on_change();
     recalculate_after_dom_changed()
-    
+    init_modal_select2_customer_name();
+    $("#cal_rec_id").val("");
+    capture_save();
   }
 })
+
+function capture_save(){
+  jQuery(document).keydown(function(event) {
+      if((event.ctrlKey || event.metaKey) && event.which == 83) {
+        // Save Function
+        event.preventDefault();
+        return false;
+      }
+    }
+  );
+}

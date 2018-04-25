@@ -19,7 +19,7 @@ function get_and_import_from_cus_tab(){
 }
 
 function delete_customer(del_btn, id){
-  if (confirm("Tất cả dữ liệu liên quan tới khách hàng sẽ bị hêt. Bạn có chắc chắn xoá khách hàng không? ")){
+  if (confirm("Tất cả dữ liệu liên quan tới khách hàng này sẽ bị xoá hết. Bạn có chắc chắn muốn xoá khách hàng này không? ")){
     $(del_btn).closest('tr').remove();
     db.customers.where('id').equals(id).delete()
   }

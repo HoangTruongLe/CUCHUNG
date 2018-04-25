@@ -13,6 +13,7 @@ function bind_product_data_on_change(price){
     if(value[0].text) $("#cal_product_name").val(value[0].text)
     if(value[0].prod_id)$("#cal_product_id").val(value[0].prod_id)
     if(value[0].price) price.set(value[0].price)
+    cal_total_val()
   });
 }
 

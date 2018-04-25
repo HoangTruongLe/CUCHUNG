@@ -55,8 +55,8 @@ Number.prototype.formatMoney = function(c, d, t){
    db.version(1).stores({
      products: "++prod_id,id,text,price",
      customers: "++cus_id,id,text,phone,address",
-     records: "++rec_id,id,text,cus_id,cus_text",
-     details: "++detail_id,id,rec_id,method,start_date,end_date,diffDays,prod_id,prod_text,price,prod_num,dvt,note,deb_rate,deb_num,deb_interest,deb_total",
+     records: "++rec_id,id,text,cus_id,cus_text,cus_phone,cus_address,rec_type,tong_goc,tong_lai,tong_tra,tong_no_cuoi_ky",
+     details: '++detail_id,id,rec_id,dvt,quantity,no_goc,tien_lai,start_date,end_date,diffDays,name,price,note,interest_rate,isPay',
    });
 
    return db
@@ -190,5 +190,11 @@ Number.prototype.formatMoney = function(c, d, t){
      return ''
    }else{
      return str
+   }
+ }
+
+ function reload_window(){
+   if(confirm("Bạn có thực sự muốn tạo bảng tính mới không?")){
+     location.reload();
    }
  }

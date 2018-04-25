@@ -18,7 +18,7 @@ function get_and_import_from_prod_tab(){
 }
 
 function delete_product(del_btn, id){
-  if (confirm("Tất cả dữ liệu liên quan tới khách hàng sẽ bị hêt. Bạn có chắc chắn xoá khách hàng không? ")){
+  if (confirm("Tất cả dữ liệu liên quan tới sản phẩm này sẽ bị xoá hết. Bạn có chắc chắn muốn xoá sản phẩm này không? ")){
     $(del_btn).closest('tr').remove();
     db.products.where('id').equals(id).delete()
   }

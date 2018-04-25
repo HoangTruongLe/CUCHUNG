@@ -12,12 +12,6 @@ function cal_total_val(){
   $("#tong_thanh_toan").html(result.tong_thanh_toan.formatMoney(0, '.', ','))
 }
 
-function save_calculated_data(){
-  db.customers.where('cus_id').equals(cus_id).toArray().then(function(result){
-    $("#cal_customer_id").val(result[0].cus_id)
-  })
-}
-
 function get_data_to_import(){
   return {
     rec_id: makeid(),
@@ -80,7 +74,7 @@ function render_to_cal_table(data){
   }
 
   var middle = ""
-  if(isPay()){
+  if(data.isPay){
     middle = `<td class="text-right no_goc"></td>
               <td class="text-right tra_giua_ky btn-warning">`+ (data.no_goc * -1).formatMoney('0', '.', ',') +`</td>
               <td class="text-right tien_lai btn-warning">`+ (data.tien_lai * -1).formatMoney('0', '.', ',') +`</td>`
@@ -97,12 +91,12 @@ function render_to_cal_table(data){
     <td class="text-center"><span class="tool_start_date" id="cal_tool_start_date_`+ data.rec_id +`">`+ data.start_date +`</span></td>
     <td class="text-center"><span class="tool_end_date" id="cal_tool_end_date_`+ data.rec_id +`">`+ data.end_date +`</span></td>
     <td class="text-center"><span class="tool_diff_date" id="cal_tool_diff_date_`+ data.rec_id +`">`+ data.diffDays +`</span></td>
-    <td class="text-left">`+ data.name +`</td>
+    <td class="text-left tool_prod_name">`+ data.name +`</td>
     <td class="text-center"><span class="tool_total_quantity" id="cal_tool_total_quantity_`+ data.rec_id +`">`+ formated_total_quantity +`</span></td>
     <td class="text-right"><span class="tool_price" id="cal_tool_price_`+ data.rec_id +`">`+ data.price.formatMoney('0', '.', ',') +`</span></td>
     `+ middle +`
     <td class="text-right tong"><span class="tool_total">`+ tong.formatMoney('0', '.', ',') +`</span></td>
-    <td class="text-center note"><span id="cal_tool_note_`+ data.rec_id +`">`+ data.note +`</span></td>
+    <td class="text-center note"><span class="tool_note" id="cal_tool_note_`+ data.rec_id +`">`+ data.note +`</span></td>
     <td class="text-center note hidden"><span id="cal_tool_interest_date_`+ data.rec_id +`" class="tool_interest_rate">`+ data.interest_rate +`</span></td>
     <td class="text-center note hidden"><span id="cal_tool_is_pay_`+ data.rec_id +`" class="tool_is_pay">`+ data.isPay +`</span></td>
     <td class="text-center note hidden"><span id="cal_tool_quantity_`+ data.rec_id +`" class="tool_quantity">`+ data.quantity +`</span></td>

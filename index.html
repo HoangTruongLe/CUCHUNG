@@ -18,15 +18,18 @@
     <script type="text/javascript" src="assets/js/sb-admin.min.js"></script>
     <script type="text/javascript" src="assets/js/sb-admin-datatables.min.js"></script>
     <script type="text/javascript" src="assets/js/toastr.min.js"></script>
+    <script type="text/javascript" src="assets/js/pagination.min.js"></script>
 
     <script type="text/javascript" src="data.json"></script>
     <script type="text/javascript" src="assets/js/utilities.js"></script>
     <script type="text/javascript" src="assets/js/management.js"></script>
+    <script type="text/javascript" src="assets/js/debt_records_modal.js"></script>
     <script type="text/javascript" src="assets/js/customer_management.js"></script>
     <script type="text/javascript" src="assets/js/product_management.js"></script>
     <script type="text/javascript" src="assets/js/select2_customer_name_controller.js"></script>
     <script type="text/javascript" src="assets/js/select2_product_name_controller.js"></script>
     <script type="text/javascript" src="assets/js/cal_tool.js"></script>
+    <script type="text/javascript" src="assets/js/store_data.js"></script>
     <script type="text/javascript" src="assets/js/index.js"></script>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -59,12 +62,60 @@
                   <a href="#cal_tool" data-toggle='tab' class="nav-link btn-info">Tính lãi</a>
                 </li>
                 <li class="nav-item" style="width: 33%; margin-left: 1px">
-                  <a href="#coffee_tool" data-toggle='tab' class="nav-link btn-secondary" style="background-color: rgb(105,79,58)">Cà phê</a>
+                  <a href="#coffee_tool" data-toggle='tab' class="nav-link btn-secondary btn-coffee">Cà phê</a>
                 </li>
                 <li class="nav-item" style="width: 33%; margin-left: 1px">
                   <a href="#management" data-toggle='tab' class="nav-link btn-secondary">Quản lý</a>
                 </li>
               </ul>
+              <!-- Logout Modal-->
+              <div class="modal fade" id="cal_tool_rec_modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Danh sách công nợ</h5>
+                      <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4">
+                          <div class="form-group row">
+                            <label for="modal_select2_customer_name" class="col-lg-4 col-sm-4 col-form-label">Tìm kiếm</label>
+                            <div class="col-lg-8 col-sm-8">
+                              <select id="modal_select2_customer_name">
+                                <option></option>
+                              </select>
+                              <input type="hidden" id="modal_customer_id" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <table class="table table-bordered table-striped table-hover">
+                          <thead>
+                            <th class="text-center" style="width: 5%">Loại</th>
+                            <th class="text-center" style="width: 5%">ID</th>
+                            <th class="text-center" style="width: 15%">Khách hàng</th>
+                            <th class="text-center" style="width: 15%">Ngày tính</th>
+                            <th class="text-center" style="width: 15%">Nợ</th>
+                            <th class="text-center" style="width: 15%">Trả</th>
+                            <th class="text-center" style="width: 15%">Tiền lãi</th>
+                            <th class="text-center" style="width: 15%">Tổng nợ cuối kỳ</th>
+                          </thead>
+                          <tbody id='debt_rec_table'>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-primary" type="button" data-dismiss="modal">Đóng</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -72,10 +123,11 @@
           <small id='current_date_time'></small>
         </div>
         <div class="col-lg-2 col-sm-1 text-right noprint">
-          <button type="button" class="btn btn-secondary" onClick="window.print();" name="button">In</button>
-          <button type="button" class="btn btn-info" onClick="location.reload();" name="button">↻</button>
-          <button type="button" class="btn btn-warning hidden" onClick="import_data_from_json()" name="button">↱↲</button>
-          <button type="button" class="btn btn-primary" onClick="save_calculated_data()" name="button">Lưu</button>
+          <button type="button" class="btn btn-info" onClick="reload_window()" name="button"><i class="fas fa-file-alt"></i></button>
+          <button type="button" class="btn btn-warning hidden" onClick="import_data_from_json()" name="button"></button>
+          <button type="button" class="btn btn-primary" onClick="save_calculated_data()" name="button"><i class="far fa-save"></i></button>
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#cal_tool_rec_modal"><i class="far fa-folder-open"></i></button>
+          <button type="button" class="btn btn-secondary" onClick="window.print();" name="button"><i class="fas fa-print"></i></button>
         </div>
       </div>
       <hr style="margin-top: -15px">
@@ -91,6 +143,7 @@
                   </select>
                   <input type="hidden" id="cal_customer_id" >
                   <input type="hidden" id="cal_customer_name" >
+                  <input type="hidden" id="cal_rec_id" >
                 </div>
               </div>
             </div>
@@ -352,24 +405,7 @@
             <a class="scroll-to-top rounded" href="#page-top">
               <i class="fa fa-angle-up"></i>
             </a>
-            <!-- Logout Modal-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                  <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>

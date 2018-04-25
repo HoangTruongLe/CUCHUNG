@@ -39,3 +39,28 @@ td{
 .hidden{
    display: none;
 }
+
+.modal-dialog {
+  width: 95% !important;
+  max-width: 100% !important;
+}
+
+.modal-dialog,
+.modal-content {
+  height: 95%;
+}
+
+.modal-body {
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.btn-coffee{
+  background-color: rgb(105,79,58);
+  cursor: pointer;
+}
+
+.btn-debt{
+  background-color: rgb(74, 160, 181);
+  cursor: pointer;
+}
