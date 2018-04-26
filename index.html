@@ -30,6 +30,7 @@
     <script type="text/javascript" src="assets/js/select2_product_name_controller.js"></script>
     <script type="text/javascript" src="assets/js/cal_tool.js"></script>
     <script type="text/javascript" src="assets/js/store_data.js"></script>
+    <script type="text/javascript" src="assets/js/coffee_tab.js"></script>
     <script type="text/javascript" src="assets/js/index.js"></script>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -132,7 +133,7 @@
       </div>
       <hr style="margin-top: -15px">
       <div class="tab-content">
-        <div class="tab-pane active" id="cal_tool" style="font-size: 13px">
+        <div class="tab-pane" id="cal_tool" style="font-size: 13px">
           <div class="row">
             <div class="col-lg-4 col-md-4">
               <div class="form-group row">
@@ -259,16 +260,73 @@
           </table>
         </div>
 
-        <div class="tab-pane" id="coffee_tool">
-          <div class="col-12">
-            <div class="row">
-              <select class="form-control js-example-tags">
-                <option selected="selected">orange</option>
-                <option>white</option>
-                <option>purple</option>
-              </select>
+        <div class="tab-pane active" id="coffee_tool" style="font-size: 13px">
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <div class="form-group row">
+                <label for="customer_name" class="col-lg-4 col-sm-5 col-form-label">Tên Khách Hàng</label>
+                <div class="col-lg-8 col-sm-7">
+                  <select id="select2_customer_name_coffee">
+                    <option></option>
+                  </select>
+                  <input type="hidden" id="cal_customer_id_coffee" >
+                  <input type="hidden" id="cal_customer_cus_id_coffee" >
+                  <input type="hidden" id="cal_customer_name_coffee" >
+                  <input type="hidden" id="cal_rec_id_coffee" >
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4">
+              <div class="form-group row">
+                <label for="phone_number" class="col-lg-4 col-sm-4 col-form-label">Điện Thoại</label>
+                <div class="col-lg-8 col-sm-8">
+                  <input type="text" id="cal_customer_phone_coffee" class="form-control form-control-small" value="">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <div class="form-group row">
+                <label for="address" class="col-lg-2 col-sm-3 col-form-label">Địa chỉ</label>
+                <div class="col-lg-10 col-sm-9">
+                  <input type="text" id="cal_customer_address_coffee" class="form-control form-control-small" value="">
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <button type="button" onclick="save_customer_data_coffee()" class="btn btn-primary btn-small noprint" name="button">+</button>
             </div>
           </div>
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <th class="text-center noprint" style="width: 5%">Xoá</th>
+              <th class="text-center" style="width: 10%">Ngày ghi</th>
+              <th class="text-center" style="width: 10%">Số lượng bán</th>
+              <th class="text-center" style="width: 10%">Giá</th>
+              <th class="text-center" style="width: 10%">Thành tiền</th>
+              <th class="text-center" style="width: 10%">Trả</th>
+              <th class="text-center" style="width: 10%">Còn</th>
+              <th class="text-center" style="width: 10%">Nhập Kho</th>
+              <th class="text-center" style="width: 10%">Lưu kho</th>
+              <th class="text-center" style="width: 15%">Ghi chú</th>
+            </thead>
+            <tbody id='coffee_table'>
+            </tbody>
+            <tbody>
+              <tr class="success">
+                <td class="noprint"></td>
+                <td class="text-center"><strong>Tổng</strong></td>
+                <td class="text-right" ><strong id='total_coffee_tong_ban'>0</strong></td>
+                <td class="text-right" ><strong id='total_coffee_gia'></strong></td>
+                <td class="text-right" ><strong id='total_coffee_thanh_tien'>0</strong></td>
+                <td class="text-right" ><strong id='total_coffee_tra'>0</strong></td>
+                <td class="text-right" ><strong id='total_coffee_con'>0</strong></td>
+                <td class="text-right" ><strong id='total_coffee_xuat'>0</strong></td>
+                <td class="text-right" ><strong id='total_coffee_ton'>0</strong></td>
+                <td class="text-right" ><strong></strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-primary" onclick="append_new_coffee_line()" style="float:right" name="button">Thêm</button>
         </div>
         <div class="tab-pane" id="management">
           <nav class="navbar navbar-expand-lg navbar-light bg-light static-top" id="mainNav" >

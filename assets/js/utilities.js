@@ -50,6 +50,13 @@ Number.prototype.formatMoney = function(c, d, t){
    return datetime
  }
 
+ function get_current_date(){
+   var currentdate = new Date();
+   var datetime = currentdate.getDate() + "/"+ (currentdate.getMonth() + 1)
+   + "/" + currentdate.getFullYear()
+   return datetime
+ }
+
  function initialize_database(){
    var db = new Dexie("productDatabase");
    db.version(1).stores({
@@ -198,3 +205,63 @@ Number.prototype.formatMoney = function(c, d, t){
      location.reload();
    }
  }
+
+ function init_cal_tool_date_editable(el){
+   el.editable({
+     type: "combodate",
+     value: el.html(),
+     format: "DD/MM/YYYY",
+     viewformat: "DD/MM/YYYY",
+   });
+ }
+
+function init_number_editable(el){
+  var newValue = ''
+  el.editable({
+    type: "text",
+    success: function(response, result){
+      newValue = result.toString();
+    }
+  });
+  el.on('hidden', function(e, params) {
+    el.html(fparse(newValue).formatMoney('0', '.', ',').toString())
+  });
+}
+
+function watch_num_editable(el){
+  el.bind('DOMSubtreeModified', function(){
+
+    el.ready(function(){
+      if (el.find(".input-sm").length > 0){
+        // console.log(el_input)
+        el.find(".input-sm").on("keypress", function (evt) {
+          if ((evt.which < 48 && evt.which != 13) || evt.which > 57){
+              evt.preventDefault();
+          }
+        });
+        el.find(".input-sm").on('keyup', function(){
+          this.value = add_comma(this.value.replace(/^0+/, ''))
+        })
+      }
+    })
+  })
+}
+
+function init_cal_tool_note_editable(el){
+  el.editable({
+    type: "textarea",
+  });
+}
+
+function add_comma(Num) { //function to add commas to textboxes
+  Num += '';
+  Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+  Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+  x = Num.split('.');
+  x1 = x[0];
+  x2 = x.length > 1 ? '.' + x[1] : '';
+  var rgx = /(\d+)(\d{3})/;
+  while (rgx.test(x1))
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+  return x1 + x2;
+}

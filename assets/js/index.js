@@ -27,6 +27,7 @@ $(document).ready(function(){
     $('#cal_tool_rec_modal').on('shown.bs.modal', function() {
       $("#modal_select2_customer_name").val("").trigger('change')
     })
+    init_select2_customer_name_coffee();
   }
 })
 

@@ -63,7 +63,6 @@ function save_customer_data(){
       add_customer(customer_val);
       get_customer_data()
       db.customers.where('id').equals(id).toArray().then(function(result){
-        console.log(result)
         $("#cal_customer_id").val(result[0].cus_id)
         $("#cal_customer_cus_id").val(result[0].id)
       })

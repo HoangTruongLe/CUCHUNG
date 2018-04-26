@@ -35,36 +35,6 @@ function import_debt_to_table(){
   render_to_cal_table(data)
 }
 
-function init_cal_tool_date_editable(el){
-  el.editable({
-    type: "combodate",
-    value: el.html(),
-    format: "DD/MM/YYYY",
-    viewformat: "DD/MM/YYYY",
-  });
-}
-
-function init_number_editable(el){
-  var newValue = ''
-  el.editable({
-    type: "number",
-    success: function(response, result){
-      newValue = result.toString();
-    }
-  });
-  el.on('hidden', function(e, params) {
-    el.html(fparse(newValue).formatMoney('0', '.', ',').toString())
-  });
-}
-
-function init_cal_tool_note_editable(el){
-  el.editable({
-    type: "textarea",
-  });
-}
-
-
-
 function render_to_cal_table(data){
   var total_quantity = data.quantity * data.dvt
   var formated_total_quantity = total_quantity.formatMoney('0', '.', ',')

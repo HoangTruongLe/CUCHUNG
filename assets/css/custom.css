@@ -64,3 +64,8 @@ td{
   background-color: rgb(74, 160, 181);
   cursor: pointer;
 }
+
+.num_editable{
+  color: blue;
+  cursor: pointer;
+}
