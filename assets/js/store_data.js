@@ -12,8 +12,8 @@ function save_calculated_data(){
     tong_tra: $("#td_tong_tra").html(),
     tong_lai: $("#td_tong_lai").html(),
     tong_no_cuoi_ky: $("#td_tong_thanhtoan").html (),
-    end_date: get_current_date_time().split("Ngày Xuất báo cáo: ")[1].split(", lúc: ")[0],
-    text: get_current_date_time().replace("Ngày Xuất báo cáo: ", "").replace(", lúc: "," - "),
+    end_date: get_current_date_time().split(", lúc: ")[0],
+    text: get_current_date_time().replace(", lúc: "," - "),
     rec_type: 1
   }
 

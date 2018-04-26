@@ -43,7 +43,7 @@ Number.prototype.formatMoney = function(c, d, t){
 
  function get_current_date_time(){
    var currentdate = new Date();
-   var datetime = "Ngày Xuất báo cáo: " + currentdate.getDate() + "/"+ (currentdate.getMonth() + 1)
+   var datetime = currentdate.getDate() + "/"+ (currentdate.getMonth() + 1)
    + "/" + currentdate.getFullYear() + ", lúc: "
    + currentdate.getHours() + ":"
    + currentdate.getMinutes() + ":" + currentdate.getSeconds();
@@ -82,7 +82,9 @@ Number.prototype.formatMoney = function(c, d, t){
    $('#cal_product_dvt').select2({
      data: dvt,
      allowClear: true,
-     placeholder: "Chọn DVT"
+     placeholder: "Chọn DVT",
+     tags: "true",
+     width: '100%',
    })
  }
 
@@ -96,7 +98,9 @@ Number.prototype.formatMoney = function(c, d, t){
    $('#cal_product_debt_rate').select2({
      data: interest_rate,
      allowClear: true,
-     placeholder: "Chọn lãi xuất"
+     placeholder: "Chọn lãi xuất",
+     tags: "true",
+     width: '100%',
    })
  }
 
