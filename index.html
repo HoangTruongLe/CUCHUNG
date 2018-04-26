@@ -69,12 +69,12 @@
                   <a href="#management" data-toggle='tab' class="nav-link btn-secondary">Quản lý</a>
                 </li>
               </ul>
-              <!-- Logout Modal-->
+              <!-- cal_tool Modal-->
               <div class="modal fade" id="cal_tool_rec_modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Danh sách công nợ</h5>
+                      <h5 class="modal-title">Danh sách công nợ</h5>
                       <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -117,17 +117,66 @@
                   </div>
                 </div>
               </div>
+              <!-- coffee_modal -->
+              <div class="modal fade" id="coffee_rec_modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Danh sách công nợ</h5>
+                      <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4">
+                          <div class="form-group row">
+                            <label for="modal_select2_customer_name" class="col-lg-4 col-sm-4 col-form-label">Tìm kiếm</label>
+                            <div class="col-lg-8 col-sm-8">
+                              <select id="coffee_modal_select2_customer_name">
+                                <option></option>
+                              </select>
+                              <input type="hidden" id="coffee_modal_customer_id" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <table class="table table-bordered table-striped table-hover">
+                          <thead>
+                            <th class="text-center" style="width: 5%">Loại</th>
+                            <th class="text-center" style="width: 5%">ID</th>
+                            <th class="text-center" style="width: 15%">Khách hàng</th>
+                            <th class="text-center" style="width: 15%">Ngày lưu</th>
+                            <th class="text-center" style="width: 15%">Nợ</th>
+                            <th class="text-center" style="width: 15%">Trả</th>
+                            <th class="text-center" style="width: 15%">Tiền lãi</th>
+                            <th class="text-center" style="width: 15%">Tổng</th>
+                          </thead>
+                          <tbody id='coffee_rec_table'>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-primary" type="button" data-dismiss="modal">Đóng</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-sm-5 text-right" style="padding-top: 18px;">
+        <div class="col-lg-2 col-sm-5 text-right" style="padding-top: 18px;">
           <small id='current_date_time'></small>
         </div>
-        <div class="col-lg-2 col-sm-1 text-right noprint">
-          <button type="button" class="btn btn-info" onClick="reload_window()" name="button"><i class="fas fa-file-alt"></i></button>
+        <div class="col-lg-3 col-sm-1 text-right noprint">
+          <button type="button" class="btn btn-success" onClick="reload_window()" name="button"><i class="fas fa-file-alt"></i></button>
           <button type="button" class="btn btn-warning hidden" onClick="import_data_from_json()" name="button"></button>
           <button type="button" class="btn btn-primary" onClick="save_calculated_data()" name="button"><i class="far fa-save"></i></button>
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#cal_tool_rec_modal"><i class="far fa-folder-open"></i></button>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#cal_tool_rec_modal"><i class="far fa-folder-open"></i></button>
+          <button type="button" class="btn btn-secondary btn-coffee" data-toggle="modal" data-target="#coffee_rec_modal"><i class="far fa-folder-open"></i></button>
           <button type="button" class="btn btn-secondary" onClick="window.print();" name="button"><i class="fas fa-print"></i></button>
         </div>
       </div>

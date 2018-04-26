@@ -100,23 +100,26 @@ function append_new_coffee_line(){
   init_cal_tool_note_editable($('#cal_coffee_ghi_chu_'+ rec_id))
   init_coffee_observers(rec_id);
   watch_num_editable($(".num_editable").parent());
+  // $('#coffee_table').bind('DOMSubtreeModified', function(event){
+    // console.log(3121)
+  // })
 }
 
 function init_coffee_observers(rec_id){
-  $('#cal_coffee_so_luong_ban_'+ rec_id).bind('DOMSubtreeModified', function(){
+  $('#cal_coffee_so_luong_ban_'+ rec_id).bind('DOMSubtreeModified', function(event){
     append_to_total($(this).closest("tr"))
   })
-  $('#cal_coffee_gia_'+ rec_id).bind('DOMSubtreeModified', function(){
+  $('#cal_coffee_gia_'+ rec_id).bind('DOMSubtreeModified', function(event){
     append_to_total($(this).closest("tr"))
   })
-  $('#cal_coffee_thanh_tien_'+ rec_id).bind('DOMSubtreeModified', function(){
+  $('#cal_coffee_thanh_tien_'+ rec_id).bind('DOMSubtreeModified', function(event){
     recalculate_on_coffee_row($(this).closest("tr"))
     cal_remaining_quantity($(this).closest("tr"))
   })
-  $('#cal_coffee_tra_'+ rec_id).bind('DOMSubtreeModified', function(){
+  $('#cal_coffee_tra_'+ rec_id).bind('DOMSubtreeModified', function(event){
     recalculate_on_coffee_row($(this).closest("tr"))
   })
-  $('#cal_coffee_xuat_'+ rec_id).bind('DOMSubtreeModified', function(){
+  $('#cal_coffee_xuat_'+ rec_id).bind('DOMSubtreeModified', function(event){
     cal_remaining_quantity($(this).closest("tr"))
   })
 }
@@ -133,11 +136,11 @@ function recalculate_on_coffee_row(el){
     if(fparse(el.find('.coffee_thanh_tien').html()) > 0 || fparse(el.find('.coffee_tra').html()) ){
       el.find('.coffee_con').html((thanh_tien - tra).formatMoney('0', '.', ','))
       cal_for_total_row()
+      trigger_next_row_change(el, '.coffee_thanh_tien')
+      trigger_next_row_change(el, '.coffee_tra')
     }else {
       el.find('.coffee_con').html('0')
     }
-    trigger_next_row_change(el, '.coffee_thanh_tien')
-    trigger_next_row_change(el, '.coffee_tra')
   }
 }
 
@@ -159,11 +162,11 @@ function cal_remaining_quantity(el){
     if(fparse(el.find('.coffee_xuat').html()) > 0 || fparse(el.find('.coffee_so_luong_ban').html()) ){
       el.find('.coffee_ton').html((import_units - sold_units).formatMoney('0', '.', ','))
       cal_for_total_row()
+      trigger_next_row_change(el, '.coffee_so_luong_ban')
+      trigger_next_row_change(el, '.coffee_xuat')
     }else {
       el.find('.coffee_ton').html('0')
     }
-    trigger_next_row_change(el, '.coffee_so_luong_ban')
-    trigger_next_row_change(el, '.coffee_xuat')
   }
 }
 
