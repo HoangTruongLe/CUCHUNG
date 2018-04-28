@@ -62,8 +62,10 @@ Number.prototype.formatMoney = function(c, d, t){
    db.version(1).stores({
      products: "++prod_id,id,text,price",
      customers: "++cus_id,id,text,phone,address",
-     records: "++rec_id,id,text,cus_id,cus_text,cus_phone,cus_address,rec_type,tong_goc,tong_lai,tong_tra,tong_no_cuoi_ky",
+     records: "++rec_id,id,text,cus_id,cus_name,cus_phone,cus_address,rec_type,tong_goc,tong_lai,tong_tra,tong_no_cuoi_ky,end_date",
+     coffee_records: "++rec_id,id,text,cus_id,cus_name,cus_phone,cus_address,slb,thanh_tien,da_tra,no_con,tong_xuat,tong_luu_kho,end_date",
      details: '++detail_id,id,rec_id,dvt,quantity,no_goc,tien_lai,start_date,end_date,diffDays,name,price,note,interest_rate,isPay',
+     coffee_details: '++detail_id,id,rec_id,ngay_ghi,slb,price,thanh_tien,da_tra,no_con,xuat,luu_kho,ghi_chu',
    });
 
    return db
@@ -268,4 +270,8 @@ function add_comma(Num) { //function to add commas to textboxes
   while (rgx.test(x1))
       x1 = x1.replace(rgx, '$1' + ',' + '$2');
   return x1 + x2;
+}
+
+function reject_empty(str){
+  if(str == 'Empty') return ''
 }

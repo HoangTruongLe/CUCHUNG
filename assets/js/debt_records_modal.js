@@ -25,6 +25,7 @@ function init_modal_select2_customer_name(){
 
 function render_debt_record(record){
   var row = `<tr>
+              <td class="text-center"><button style="float: none" class="close" onclick="delete_debt_row(this,`+ record.rec_id +`)" >&times;</button></td>
               <td onclick="select_debt_row(`+ record.rec_id +`)" class="text-center btn-info btn-debt" ><span>Xem</span></td>
               <td class="text-center" ><span class="">`+ record.rec_id +`</span></td>
               <td class="text-left" ><span class="debt_rec_customer" id=''>`+ record.cus_name +`</span></td>
@@ -65,4 +66,12 @@ function select_debt_row(rec_id){
     record.rec_id = makeid()
     render_to_cal_table(record)
   })
+  $("#top_control li>a[href='#cal_tool']").trigger("click")
+}
+
+function delete_debt_row(del_btn, id){
+  if (confirm("Bạn có chắc chắn muốn xoá không?")){
+    $(del_btn).closest('tr').remove();
+    db.records.where('rec_id').equals(id).delete()
+  }
 }

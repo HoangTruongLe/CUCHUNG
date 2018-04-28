@@ -31,6 +31,7 @@
     <script type="text/javascript" src="assets/js/cal_tool.js"></script>
     <script type="text/javascript" src="assets/js/store_data.js"></script>
     <script type="text/javascript" src="assets/js/coffee_tab.js"></script>
+    <script type="text/javascript" src="assets/js/coffee_records_modal.js"></script>
     <script type="text/javascript" src="assets/js/index.js"></script>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -59,7 +60,7 @@
           <div class="row">
             <h3 class="col-lg-7 col-sm-12">BÁO CÁO CÔNG NỢ</h3>
             <div class="col-lg-5 col-sm-6 noprint">
-              <ul class="nav nav-tabs tabs-bordered text-center" style="font-size: 12px">
+              <ul id="top_control" class="nav nav-tabs tabs-bordered text-center" style="font-size: 12px">
                 <li class="nav-item" style="width: 33%">
                   <a href="#cal_tool" data-toggle='tab' class="nav-link btn-info">Tính lãi</a>
                 </li>
@@ -97,7 +98,8 @@
                       <div class="row">
                         <table class="table table-bordered table-striped table-hover">
                           <thead>
-                            <th class="text-center" style="width: 5%">Loại</th>
+                            <th class="text-center" style="width: 5%">Xoá</th>
+                            <th class="text-center" style="width: 5%">Xem</th>
                             <th class="text-center" style="width: 5%">ID</th>
                             <th class="text-center" style="width: 15%">Khách hàng</th>
                             <th class="text-center" style="width: 15%">Ngày lưu</th>
@@ -145,14 +147,17 @@
                       <div class="row">
                         <table class="table table-bordered table-striped table-hover">
                           <thead>
-                            <th class="text-center" style="width: 5%">Loại</th>
+                            <th class="text-center" style="width: 5%">Xoá</th>
+                            <th class="text-center" style="width: 5%">Xem</th>
                             <th class="text-center" style="width: 5%">ID</th>
-                            <th class="text-center" style="width: 15%">Khách hàng</th>
-                            <th class="text-center" style="width: 15%">Ngày lưu</th>
-                            <th class="text-center" style="width: 15%">Nợ</th>
-                            <th class="text-center" style="width: 15%">Trả</th>
-                            <th class="text-center" style="width: 15%">Tiền lãi</th>
-                            <th class="text-center" style="width: 15%">Tổng</th>
+                            <th class="text-center" style="width: 10%">Khách hàng</th>
+                            <th class="text-center" style="width: 10%">Ngày lưu</th>
+                            <th class="text-center" style="width: 10%">Số lượng bán</th>
+                            <th class="text-center" style="width: 10%">Tổng thành tiền</th>
+                            <th class="text-center" style="width: 10%">Tổng trả</th>
+                            <th class="text-center" style="width: 10%">Nợ</th>
+                            <th class="text-center" style="width: 10%">Tổng xuất</th>
+                            <th class="text-center" style="width: 10%">Còn lưu kho</th>
                           </thead>
                           <tbody id='coffee_rec_table'>
 
@@ -183,7 +188,7 @@
       </div>
       <hr style="margin-top: -15px">
       <div class="tab-content">
-        <div class="tab-pane" id="cal_tool" style="font-size: 13px">
+        <div class="tab-pane active" id="cal_tool" style="font-size: 13px">
           <div class="row">
             <div class="col-lg-4 col-md-4">
               <div class="form-group row">
@@ -318,7 +323,7 @@
           </table>
         </div>
 
-        <div class="tab-pane active" id="coffee_tool" style="font-size: 13px">
+        <div class="tab-pane" id="coffee_tool" style="font-size: 13px">
           <div class="row">
             <div class="col-lg-4 col-md-4">
               <div class="form-group row">
@@ -374,7 +379,7 @@
                 <td class="noprint"></td>
                 <td class="text-center"><strong>Tổng</strong></td>
                 <td class="text-right" ><strong id='total_coffee_tong_ban'>0</strong></td>
-                <td class="text-right" ><strong id='total_coffee_gia'></strong></td>
+                <td class="text-right" ><strong></strong></td>
                 <td class="text-right" ><strong id='total_coffee_thanh_tien'>0</strong></td>
                 <td class="text-right" ><strong id='total_coffee_tra'>0</strong></td>
                 <td class="text-right" ><strong id='total_coffee_con'>0</strong></td>
@@ -400,12 +405,6 @@
                   <a class="nav-link" href="#product_tab" data-toggle='tab'>
                     <i class="fa fa-fw fa-table"></i>
                     <span class="nav-link-text">Danh mục</span>
-                  </a>
-                </li>
-                <li class="nav-item" data-placement="right" title="Tables">
-                  <a class="nav-link" href="#record_tab" data-toggle='tab'>
-                    <i class="fa fa-fw fa-archive"></i>
-                    <span class="nav-link-text">Bản ghi</span>
                   </a>
                 </li>
               </ul>
@@ -505,12 +504,7 @@
                       </table>
                     </div>
                   </div>
-                </div>
-                <div class="tab-pane" id='record_tab'>
-                  management
-                </div>
               </div>
-              <!-- code go there -->
             </div>
             <footer class="sticky-footer" style="width: calc(100% - 265px);">
               <div class="container">

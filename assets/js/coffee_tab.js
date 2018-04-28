@@ -75,21 +75,38 @@ function remove_coffee_row(row){
   cal_for_total_row()
 }
 
-function append_new_coffee_line(){
+function append_new_coffee_line(data = null){
   var rec_id = makeid();
-  var insert_text = `
-  <tr>
-    <td class="text-center noprint"><button type="button" onclick="remove_coffee_row(this)" class="close" style="float: none">&times;</button></td>
-    <td class="text-center"><span class="coffee_start_date" id="cal_coffee_start_date_`+ rec_id +`">`+ get_current_date() +`</span></td>
-    <td class="text-right"><span class="num_editable coffee_so_luong_ban" id="cal_coffee_so_luong_ban_`+ rec_id +`">0</span></td>
-    <td class="text-right"><span class="num_editable coffee_gia" id="cal_coffee_gia_`+ rec_id +`">0</span></td>
-    <td class="text-right"><span class="coffee_thanh_tien" id="cal_coffee_thanh_tien_`+ rec_id +`">0</span></td>
-    <td class="text-right"><span class="num_editable coffee_tra" id="cal_coffee_tra_`+ rec_id +`">0</span></td>
-    <td class="text-right"><span class="coffee_con" id="cal_coffee_con_`+ rec_id +`">0</span></td>
-    <td class="text-right"><span class="num_editable coffee_xuat" id="cal_coffee_xuat_`+ rec_id +`">0</span></td>
-    <td class="text-right"><span class="coffee_ton" id="cal_coffee_ton_`+ rec_id +`">0</span></td>
-    <td class="text-left"><span class="coffee_ghi_chu" id="cal_coffee_ghi_chu_`+ rec_id +`"></span></td>
-  </tr>`
+  var insert_text = ''
+  if(!data){
+    insert_text = `
+    <tr>
+      <td class="text-center noprint"><button type="button" onclick="remove_coffee_row(this)" class="close" style="float: none">&times;</button></td>
+      <td class="text-center"><span class="coffee_start_date" id="cal_coffee_start_date_`+ rec_id +`">`+ get_current_date() +`</span></td>
+      <td class="text-right"><span class="num_editable coffee_so_luong_ban" id="cal_coffee_so_luong_ban_`+ rec_id +`">0</span></td>
+      <td class="text-right"><span class="num_editable coffee_gia" id="cal_coffee_gia_`+ rec_id +`">0</span></td>
+      <td class="text-right"><span class="coffee_thanh_tien" id="cal_coffee_thanh_tien_`+ rec_id +`">0</span></td>
+      <td class="text-right"><span class="num_editable coffee_tra" id="cal_coffee_tra_`+ rec_id +`">0</span></td>
+      <td class="text-right"><span class="coffee_con" id="cal_coffee_con_`+ rec_id +`">0</span></td>
+      <td class="text-right"><span class="num_editable coffee_xuat" id="cal_coffee_xuat_`+ rec_id +`">0</span></td>
+      <td class="text-right"><span class="coffee_ton" id="cal_coffee_ton_`+ rec_id +`">0</span></td>
+      <td class="text-left note"><span class="coffee_ghi_chu" id="cal_coffee_ghi_chu_`+ rec_id +`"></span></td>
+    </tr>`
+  }else {
+    insert_text = `
+    <tr>
+      <td class="text-center noprint"><button type="button" onclick="remove_coffee_row(this)" class="close" style="float: none">&times;</button></td>
+      <td class="text-center"><span class="coffee_start_date" id="cal_coffee_start_date_`+ rec_id +`">`+ data.ngay_ghi +`</span></td>
+      <td class="text-right"><span class="num_editable coffee_so_luong_ban" id="cal_coffee_so_luong_ban_`+ rec_id +`">`+ data.slb.formatMoney('0', '.', ',') +`</span></td>
+      <td class="text-right"><span class="num_editable coffee_gia" id="cal_coffee_gia_`+ rec_id +`">`+ data.price.formatMoney('0', '.', ',') +`</span></td>
+      <td class="text-right"><span class="coffee_thanh_tien" id="cal_coffee_thanh_tien_`+ rec_id +`">`+ data.thanh_tien.formatMoney('0', '.', ',') +`</span></td>
+      <td class="text-right"><span class="num_editable coffee_tra" id="cal_coffee_tra_`+ rec_id +`">`+ data.da_tra.formatMoney('0', '.', ',') +`</span></td>
+      <td class="text-right"><span class="coffee_con" id="cal_coffee_con_`+ rec_id +`">`+ data.no_con.formatMoney('0', '.', ',') +`</span></td>
+      <td class="text-right"><span class="num_editable coffee_xuat" id="cal_coffee_xuat_`+ rec_id +`">`+ data.xuat.formatMoney('0', '.', ',') +`</span></td>
+      <td class="text-right"><span class="coffee_ton" id="cal_coffee_ton_`+ rec_id +`">`+ data.luu_kho.formatMoney('0', '.', ',') +`</span></td>
+      <td class="text-left note"><span class="coffee_ghi_chu" id="cal_coffee_ghi_chu_`+ rec_id +`">`+ data.ghi_chu +`</span></td>
+    </tr>`
+  }
   $('#coffee_table').append(insert_text)
   init_cal_tool_date_editable($('#cal_coffee_start_date_' + rec_id))
   init_number_editable($('#cal_tool_price_'+ rec_id))
