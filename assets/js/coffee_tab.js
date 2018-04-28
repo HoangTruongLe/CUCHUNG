@@ -88,7 +88,7 @@ function append_new_coffee_line(){
     <td class="text-right"><span class="coffee_con" id="cal_coffee_con_`+ rec_id +`">0</span></td>
     <td class="text-right"><span class="num_editable coffee_xuat" id="cal_coffee_xuat_`+ rec_id +`">0</span></td>
     <td class="text-right"><span class="coffee_ton" id="cal_coffee_ton_`+ rec_id +`">0</span></td>
-    <td class="text-left"><span class="coffee_ghi_chu" id="cal_coffee_ghi_chu_`+ rec_id +`">Không</span></td>
+    <td class="text-left"><span class="coffee_ghi_chu" id="cal_coffee_ghi_chu_`+ rec_id +`"></span></td>
   </tr>`
   $('#coffee_table').append(insert_text)
   init_cal_tool_date_editable($('#cal_coffee_start_date_' + rec_id))
@@ -99,10 +99,6 @@ function append_new_coffee_line(){
   init_number_editable($('#cal_coffee_xuat_'+ rec_id))
   init_cal_tool_note_editable($('#cal_coffee_ghi_chu_'+ rec_id))
   init_coffee_observers(rec_id);
-  watch_num_editable($(".num_editable").parent());
-  // $('#coffee_table').bind('DOMSubtreeModified', function(event){
-    // console.log(3121)
-  // })
 }
 
 function init_coffee_observers(rec_id){

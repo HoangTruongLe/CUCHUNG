@@ -47,6 +47,7 @@
       @page { size: landscape; margin: 0mm; }
       @media print {
         .noprint {display:none;}
+        .editable-empty{display:none;}
       }
     </style>
     <title>DNTN Cúc Hùng</title>
@@ -362,7 +363,7 @@
               <th class="text-center" style="width: 10%">Thành tiền</th>
               <th class="text-center" style="width: 10%">Trả</th>
               <th class="text-center" style="width: 10%">Còn</th>
-              <th class="text-center" style="width: 10%">Nhập Kho</th>
+              <th class="text-center" style="width: 10%">Xuất</th>
               <th class="text-center" style="width: 10%">Lưu kho</th>
               <th class="text-center" style="width: 15%">Ghi chú</th>
             </thead>
@@ -383,7 +384,7 @@
               </tr>
             </tbody>
           </table>
-          <button type="button" class="btn btn-primary" onclick="append_new_coffee_line()" style="float:right" name="button">Thêm</button>
+          <button type="button" class="btn btn-primary noprint" onclick="append_new_coffee_line()" style="float:right" name="button">Thêm</button>
         </div>
         <div class="tab-pane" id="management">
           <nav class="navbar navbar-expand-lg navbar-light bg-light static-top" id="mainNav" >

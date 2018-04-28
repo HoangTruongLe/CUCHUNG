@@ -230,11 +230,11 @@ function init_number_editable(el){
   el.on('hidden', function(e, params) {
     el.html(fparse(newValue).formatMoney('0', '.', ',').toString())
   });
+  watch_num_editable($(".num_editable").parent());
 }
 
 function watch_num_editable(el){
   el.bind('DOMSubtreeModified', function(){
-
     el.ready(function(){
       if (el.find(".input-sm").length > 0){
         // console.log(el_input)

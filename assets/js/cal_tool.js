@@ -62,8 +62,8 @@ function render_to_cal_table(data){
     <td class="text-center"><span class="tool_end_date" id="cal_tool_end_date_`+ data.rec_id +`">`+ data.end_date +`</span></td>
     <td class="text-center"><span class="tool_diff_date" id="cal_tool_diff_date_`+ data.rec_id +`">`+ data.diffDays +`</span></td>
     <td class="text-left tool_prod_name">`+ data.name +`</td>
-    <td class="text-center"><span class="tool_total_quantity" id="cal_tool_total_quantity_`+ data.rec_id +`">`+ formated_total_quantity +`</span></td>
-    <td class="text-right"><span class="tool_price" id="cal_tool_price_`+ data.rec_id +`">`+ data.price.formatMoney('0', '.', ',') +`</span></td>
+    <td class="text-center"><span class="num_editable tool_total_quantity" id="cal_tool_total_quantity_`+ data.rec_id +`">`+ formated_total_quantity +`</span></td>
+    <td class="text-right"><span class="num_editable tool_price" id="cal_tool_price_`+ data.rec_id +`">`+ data.price.formatMoney('0', '.', ',') +`</span></td>
     `+ middle +`
     <td class="text-right tong"><span class="tool_total">`+ tong.formatMoney('0', '.', ',') +`</span></td>
     <td class="text-center note"><span class="tool_note" id="cal_tool_note_`+ data.rec_id +`">`+ data.note +`</span></td>
