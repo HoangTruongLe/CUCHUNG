@@ -43,7 +43,7 @@ Number.prototype.formatMoney = function(c, d, t){
 
  function get_current_date_time(){
    var currentdate = new Date();
-   var datetime = currentdate.getDate() + "/"+ (currentdate.getMonth() + 1)
+   var datetime = ("0" + currentdate.getDate()).slice(-2) + "/"+ ("0"+(currentdate.getMonth() + 1)).slice(-2)
    + "/" + currentdate.getFullYear() + ", lúc: "
    + currentdate.getHours() + ":"
    + currentdate.getMinutes() + ":" + currentdate.getSeconds();
@@ -52,7 +52,7 @@ Number.prototype.formatMoney = function(c, d, t){
 
  function get_current_date(){
    var currentdate = new Date();
-   var datetime = currentdate.getDate() + "/"+ (currentdate.getMonth() + 1)
+   var datetime = ("0" + currentdate.getDate()).slice(-2) + "/"+ ("0"+(currentdate.getMonth() + 1)).slice(-2)
    + "/" + currentdate.getFullYear()
    return datetime
  }
@@ -273,5 +273,10 @@ function add_comma(Num) { //function to add commas to textboxes
 }
 
 function reject_empty(str){
-  if(str == 'Empty') return ''
+  if(str == 'Empty'){
+    return ''
+  }
+  else {
+    return str
+  }
 }

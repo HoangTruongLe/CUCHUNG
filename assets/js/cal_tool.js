@@ -119,3 +119,9 @@ function recalculate_on_row(row){
     $(row).closest("tr").find('.tool_total').html(result.tong_thanh_toan.formatMoney('0', '.', ','))
   }
 }
+
+function set_current_date(){
+  $('#detb_table_body > tr').each(function(){
+    $(this).find('.tool_end_date').html(get_current_date())
+  })
+}

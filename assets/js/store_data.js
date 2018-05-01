@@ -134,12 +134,13 @@ function save_coffee_details(rec_id){
       thanh_tien: fparse($(this).find('.coffee_thanh_tien').html()),
       da_tra: fparse($(this).find('.coffee_tra').html()),
       no_con: fparse($(this).find('.coffee_con').html()),
-      xuat: fparse($(this).find('.xuat').html()),
+      xuat: fparse($(this).find('.coffee_xuat').html()),
       luu_kho: fparse($(this).find('.coffee_ton').html()),
       rec_id: rec_id,
       ghi_chu: reject_empty($(this).find('.coffee_ghi_chu').html()),
       id: makeid(),
     }
+    console.log($(this).find('.coffee_ghi_chu').html())
     db.coffee_details.add(coffee_rec)
   })
 }
