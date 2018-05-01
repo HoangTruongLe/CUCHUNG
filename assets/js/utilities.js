@@ -74,6 +74,9 @@ Number.prototype.formatMoney = function(c, d, t){
  function init_select2_dvt(){
    var dvt = [
      { id: 1, text: 'Kg' },
+     { id: "1.00", text: 'Cái' },
+     { id: "1.000", text: 'Hộp' },
+     { id: "1.0000", text: 'Gói' },
      { id: "1.0", text: 'Bao' },
      { id: 20, text: 'Bao 20Kg' },
      { id: 25, text: 'Bao 25Kg'},
@@ -108,10 +111,7 @@ Number.prototype.formatMoney = function(c, d, t){
 
  function init_datepicker(){
    $('#cal_product_start_date').datepicker({autoclose: true});
-   $('#cal_product_end_date').datepicker({
-       autoclose: true
-     },
-   )
+   $('#cal_product_end_date').datepicker({autoclose: true});
  }
 
  function cal_diff_days_on_change(){
