@@ -1,6 +1,9 @@
 function init_select2_customer_name_coffee(){
   get_customer_data_coffee()
   bind_customer_data_on_change_coffee()
+  $('#coffee_table').bind('DOMSubtreeModified', function(event){
+    recalculate_table()
+  })
 }
 
 function get_customer_data_coffee(){
@@ -115,26 +118,6 @@ function append_new_coffee_line(data = null){
   init_number_editable($('#cal_coffee_tra_'+ rec_id))
   init_number_editable($('#cal_coffee_xuat_'+ rec_id))
   init_cal_tool_note_editable($('#cal_coffee_ghi_chu_'+ rec_id))
-  init_coffee_observers(rec_id);
-}
-
-function init_coffee_observers(rec_id){
-  $('#cal_coffee_so_luong_ban_'+ rec_id).bind('DOMSubtreeModified', function(event){
-    append_to_total($(this).closest("tr"))
-  })
-  $('#cal_coffee_gia_'+ rec_id).bind('DOMSubtreeModified', function(event){
-    append_to_total($(this).closest("tr"))
-  })
-  $('#cal_coffee_thanh_tien_'+ rec_id).bind('DOMSubtreeModified', function(event){
-    recalculate_on_coffee_row($(this).closest("tr"))
-    cal_remaining_quantity($(this).closest("tr"))
-  })
-  $('#cal_coffee_tra_'+ rec_id).bind('DOMSubtreeModified', function(event){
-    recalculate_on_coffee_row($(this).closest("tr"))
-  })
-  $('#cal_coffee_xuat_'+ rec_id).bind('DOMSubtreeModified', function(event){
-    cal_remaining_quantity($(this).closest("tr"))
-  })
 }
 
 function append_to_total(el){
@@ -144,13 +127,10 @@ function append_to_total(el){
 
 function recalculate_on_coffee_row(el){
   if (el.find('.coffee_thanh_tien').length > 0 || el.find('.coffee_tra').length >0 ){
-    var thanh_tien = get_next_and_prev_val(el, '.coffee_thanh_tien')
-    var tra = get_next_and_prev_val(el, '.coffee_tra')
+    var thanh_tien = get_prev_val(el, '.coffee_thanh_tien')
+    var tra = get_prev_val(el, '.coffee_tra')
     if(fparse(el.find('.coffee_thanh_tien').html()) > 0 || fparse(el.find('.coffee_tra').html()) ){
       el.find('.coffee_con').html((thanh_tien - tra).formatMoney('0', '.', ','))
-      cal_for_total_row()
-      trigger_next_row_change(el, '.coffee_thanh_tien')
-      trigger_next_row_change(el, '.coffee_tra')
     }else {
       el.find('.coffee_con').html('0')
     }
@@ -170,13 +150,10 @@ function calculate_total_money(previous_remaining, quantity, price, pay){
 
 function cal_remaining_quantity(el){
   if (el.find('.coffee_so_luong_ban').length > 0 || el.find('.coffee_xuat').length >0 ){
-    var sold_units = get_next_and_prev_val(el, '.coffee_so_luong_ban')
-    var import_units = get_next_and_prev_val(el, '.coffee_xuat')
+    var sold_units = get_prev_val(el, '.coffee_so_luong_ban')
+    var import_units = get_prev_val(el, '.coffee_xuat')
     if(fparse(el.find('.coffee_xuat').html()) > 0 || fparse(el.find('.coffee_so_luong_ban').html()) ){
       el.find('.coffee_ton').html((import_units - sold_units).formatMoney('0', '.', ','))
-      cal_for_total_row()
-      trigger_next_row_change(el, '.coffee_so_luong_ban')
-      trigger_next_row_change(el, '.coffee_xuat')
     }else {
       el.find('.coffee_ton').html('0')
     }
@@ -186,14 +163,14 @@ function cal_remaining_quantity(el){
 function trigger_next_row_change(el, child_class){
   if(el.next().find(child_class).length > 0){
     el.next().find(child_class).trigger("DOMSubtreeModified")
-    get_next_and_prev_val(el.next())
+    get_prev_val(el.next())
   }
 }
 
-function get_next_and_prev_val(el, child_class, val = 0){
+function get_prev_val(el, child_class, val = 0){
   if(el.find(child_class).length > 0){
     val += fparse(el.find(child_class).html())
-    return get_next_and_prev_val(el.prev(), child_class, val)
+    return get_prev_val(el.prev(), child_class, val)
   }else{
     return val
   }
@@ -215,5 +192,18 @@ function cal_for_total_row(){
     $('#total_coffee_con').html((tong_thanh_tien - tong_tra).formatMoney(0, '.', ','))
     $('#total_coffee_xuat').html(tong_xuat.formatMoney(0, '.', ','))
     $('#total_coffee_ton').html((tong_xuat - tong_luong_ban).formatMoney(0, '.', ','))
+  })
+}
+
+function recalculate_table(){
+  $('#coffee_table').unbind('DOMSubtreeModified')
+  $('#coffee_table > tr').each(function(idex, row_element){
+    append_to_total($(row_element))
+    recalculate_on_coffee_row($(row_element))
+    cal_remaining_quantity($(row_element))
+  })
+  cal_for_total_row()
+  $('#coffee_table').bind('DOMSubtreeModified', function(event){
+    recalculate_table()
   })
 }
