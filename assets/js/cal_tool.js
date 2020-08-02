@@ -5,7 +5,7 @@ function cal_total_val(){
     fparse($('#cal_product_diffDays').html()),
     fparse($('#cal_product_price').val()),
     fparse($('#cal_product_dvt').val()),
-    fparse($("#cal_product_quantity").val())
+    fparse($('#cal_product_quantity').val())
   )
   $("#no_goc").html(result.no_goc.formatMoney(0, '.', ','))
   $("#tien_lai").html(result.tien_lai.formatMoney(0, '.', ','))
@@ -13,6 +13,10 @@ function cal_total_val(){
 }
 
 function get_data_to_import(){
+  if (!$('#cal_product_end_date').val()){
+    $('#cal_product_end_date').val(get_current_date())
+    $('#cal_product_end_date').trigger('change')
+  }
   return {
     rec_id: makeid(),
     dvt: fparse($('#cal_product_dvt').val()),
@@ -31,6 +35,7 @@ function get_data_to_import(){
 }
 
 function import_debt_to_table(){
+  $('#td_lai_xuat').html($('#cal_product_debt_rate').select2('data')[0].text)
   var data = get_data_to_import()
   render_to_cal_table(data)
 }
@@ -54,7 +59,6 @@ function render_to_cal_table(data){
               <td class="text-right tra_giua_ky"></td>
               <td class="text-right tien_lai">`+ data.tien_lai.formatMoney('0', '.', ',') +`</td>`
   }
-
   var insert_text = `
   <tr>
     <td class="text-center noprint"><button type="button" onclick="$(this).closest('tr').remove()" class="close" style="float: none">&times;</button></td>

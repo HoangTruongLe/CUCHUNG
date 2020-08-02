@@ -228,11 +228,9 @@
             <thead>
               <th class="text-center" style="width: 7%">Phương thức</th>
               <th class="text-center" style="width: 8%">Ngày ghi</th>
-              <th class="text-center" style="width: 8%">Ngày tính</th>
-              <th class="text-center" style="width: 2%">S.ngày</th>
-              <th class="text-center" style="width: 14%">Danh mục</th>
-              <th class="text-center" style="width: 16%">Đơn giá</th>
-              <th class="text-center" style="width: 5%">Số lượng</th>
+              <th class="text-center" style="width: 8%; display: none;">Ngày tính</th>
+              <th class="text-center" style="width: 2%; display: none;">S.ngày</th>
+              <th class="text-center" style="width: 24%">Danh mục - Số lượng - Đơn giá</th>
               <th class="text-center" style="width: 7%">DVT</th>
               <th class="text-center" style="width: 6%">Lãi</th>
             </thead>
@@ -249,20 +247,20 @@
                   </div>
                 </td>
                 <td class="ngay_no text-center"><input onchange="cal_total_val()" id="cal_product_start_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
-                <td class="ngay_tinh text-center"><input onchange="cal_total_val()" id="cal_product_end_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
-                <td class="so_ngay text-center"><strong><span id="cal_product_diffDays"> </span></strong></td>
-                <td colspan="2" class="ten_mat_hang text-center">
+                <td class="ngay_tinh text-center" style="display:none;"><input onchange="cal_total_val()" id="cal_product_end_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
+                <td class="so_ngay text-center" style="display:none;"><strong><span id="cal_product_diffDays"> </span></strong></td>
+                <td class="ten_mat_hang text-center">
                   <div class="form-inline">
-                    <select id="select2_product_name" class="text-center" >
+                    <select style="width: 25%" id="select2_product_name" class="text-center" >
                       <option></option>
                     </select>
+                    <input style="width: 20%" placeholder="Số lượng" onchange="cal_total_val()" id="cal_product_quantity" class="text-center form-control form-control-small">
                     <input type="hidden" id="cal_product_id" >
                     <input type="hidden" id="cal_product_name" >
-                    <input onchange="cal_total_val()" style="width: 45%" id="cal_product_price" class="form-control form-control-small text-center" >
+                    <input onchange="cal_total_val()" placeholder="Đơn giá" style="width: 25%" id="cal_product_price" class="form-control form-control-small text-center" >
                     <button type="button" onclick="save_product_data()" style="width: 7%" class="ml-1 btn btn-primary btn-small noprint" name="button">+</button>
                   </div>
                 </td>
-                <td class="so_luong text-center"><input onchange="cal_total_val()" id="cal_product_quantity" class="text-center form-control form-control-small"></td>
                 <td class="don_vi_tinh text-center">
                   <select onchange="cal_total_val()" id="cal_product_dvt" class="text-center" >
                     <option></option>
@@ -314,7 +312,7 @@
                 <td class="noprint"></td>
                 <td ><strong>Tổng cộng</strong></td>
                 <td class="text-center" ><a class="noprint" href="#" onclick="set_current_date()">Hôm nay</a></td>
-                <td colspan="4" ><strong></strong></td>
+                <td colspan="4" >Lãi xuất:<strong id='td_lai_xuat'>0%</strong></td>
                 <td class="text-right" ><strong id='td_tong_goc'>0</strong></td>
                 <td class="text-right" ><strong id='td_tong_tra'>0</strong></td>
                 <td class="text-right" ><strong id='td_tong_lai'>0</strong></td>
