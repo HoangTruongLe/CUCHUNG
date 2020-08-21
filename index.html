@@ -226,43 +226,47 @@
           </div>
           <table class="table table-bordered noprint">
             <thead>
-              <th class="text-center" style="width: 7%">Phương thức</th>
-              <th class="text-center" style="width: 8%">Ngày ghi</th>
-              <th class="text-center" style="width: 8%">Ngày tính</th>
+              <th class="text-center" style="width: 7%">P.thức</th>
+              <th class="text-center" style="width: 9%">Ngày nhập hàng</th>
+              <th class="text-center" style="width: 9%">Ngày ghi</th>
+              <th class="text-center" style="width: 9%">Ngày tính</th>
               <th class="text-center" style="width: 2%">S.ngày</th>
               <th class="text-center" style="width: 14%">Danh mục</th>
-              <th class="text-center" style="width: 16%">Đơn giá</th>
-              <th class="text-center" style="width: 5%">Số lượng</th>
-              <th class="text-center" style="width: 7%">DVT</th>
-              <th class="text-center" style="width: 6%">Lãi</th>
+              <th class="text-center" style="width: 5%">S.lượng</th>
+              <th class="text-center" style="width: 15%">Đơn giá</th>
+              <th class="text-center" style="width: 4%">DVT</th>
+              <th class="text-center" style="width: 4%">Lãi %</th>
             </thead>
             <tbody>
               <tr>
                 <td class="text-center">
-                  <div class="custom-control custom-radio custom-control-inline" style="margin-left: -5px; margin-right: 0px;">
+                  <div class="custom-control custom-radio custom-control-inline" >
                     <input type="radio" id="customRadioInline1" checked name="customRadioInline1" class="custom-control-input">
                     <label class="custom-control-label pt-1" for="customRadioInline1">Nợ</label>
                   </div>
-                  <div class="custom-control custom-radio custom-control-inline" style="margin-left: 5px; margin-right: 0px;">
+                  <div class="custom-control custom-radio custom-control-inline" >
                     <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
                     <label class="custom-control-label pt-1" for="customRadioInline2">Trả</label>
                   </div>
                 </td>
+                <td class="ngay_nhap text-center"><input onchange="cal_total_val()" id="cal_product_import_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
                 <td class="ngay_no text-center"><input onchange="cal_total_val()" id="cal_product_start_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
                 <td class="ngay_tinh text-center"><input onchange="cal_total_val()" id="cal_product_end_date" class="col-12 datepicker text-center" style="" type="text" name="" value=""></td>
                 <td class="so_ngay text-center"><strong><span id="cal_product_diffDays"> </span></strong></td>
-                <td colspan="2" class="ten_mat_hang text-center">
-                  <div class="form-inline">
-                    <select id="select2_product_name" class="text-center" >
-                      <option></option>
-                    </select>
-                    <input type="hidden" id="cal_product_id" >
-                    <input type="hidden" id="cal_product_name" >
-                    <input onchange="cal_total_val()" style="width: 45%" id="cal_product_price" class="form-control form-control-small text-center" >
-                    <button type="button" onclick="save_product_data()" style="width: 7%" class="ml-1 btn btn-primary btn-small noprint" name="button">+</button>
-                  </div>
+                <td class="ten_mat_hang text-center">
+                  <select id="select2_product_name" class="text-center" >
+                    <option></option>
+                  </select>
+                  <input type="hidden" id="cal_product_id" >
+                  <input type="hidden" id="cal_product_name" >
                 </td>
-                <td class="so_luong text-center"><input onchange="cal_total_val()" id="cal_product_quantity" class="text-center form-control form-control-small"></td>
+                <td class="so_luong text-center">
+                  <input style="width: 100%" onchange="cal_total_val()" id="cal_product_quantity" class="text-center form-control form-control-small"></td>
+                <td class="don_gia text-center">
+                  <div class="input-group">
+                    <input onchange="cal_total_val()" id="cal_product_price" class="form-control form-control-small text-center" >
+                    <button type="button" onclick="save_product_data()" class="ml-1 btn btn-primary btn-small noprint" name="button">+</button>                </td>
+                  </div>
                 <td class="don_vi_tinh text-center">
                   <select onchange="cal_total_val()" id="cal_product_dvt" class="text-center" >
                     <option></option>
@@ -295,12 +299,15 @@
           <table class="table table-bordered table-striped table-hover">
             <thead>
               <th class="text-center noprint" style="width: 1%">Xoá</th>
+              <th class="text-center" style="width: 10%">Ngày nhập</th>
               <th class="text-center" style="width: 10%">Ngày ghi</th>
               <th class="text-center" style="width: 10%">Ngày tính</th>
               <th class="text-center" style="width: 5%">S.ngày</th>
               <th class="text-center" style="width: 10%">Danh mục</th>
               <th class="text-center" style="width: 4%">SL</th>
+              <th class="text-center" style="width: 4%">DVT</th>
               <th class="text-center" style="width: 10%">Đơn giá</th>
+              <th class="text-center" style="width: 4%">Lãi%</th>
               <th class="text-center" style="width: 10%">Nợ</th>
               <th class="text-center" style="width: 10%">Trả</th>
               <th class="text-center" style="width: 10%">Tiền lãi</th>
@@ -314,7 +321,7 @@
                 <td class="noprint"></td>
                 <td ><strong>Tổng cộng</strong></td>
                 <td class="text-center" ><a class="noprint" href="#" onclick="set_current_date()">Hôm nay</a></td>
-                <td colspan="4" ><strong></strong></td>
+                <td colspan="7" ><strong></strong></td>
                 <td class="text-right" ><strong id='td_tong_goc'>0</strong></td>
                 <td class="text-right" ><strong id='td_tong_tra'>0</strong></td>
                 <td class="text-right" ><strong id='td_tong_lai'>0</strong></td>

@@ -15,7 +15,7 @@ Number.prototype.formatMoney = function(c, d, t){
  String.prototype.isLatin=function(){return this==this.latinise()}
 
  function remove_all_currency_mark(repString){
-   if(repString){
+   if(repString && typeof(repString) == 'string'){
      return repString.replace(/,/g , "");
    }else {
      return ""
@@ -64,7 +64,7 @@ Number.prototype.formatMoney = function(c, d, t){
      customers: "++cus_id,id,text,phone,address",
      records: "++rec_id,id,text,cus_id,cus_name,cus_phone,cus_address,rec_type,tong_goc,tong_lai,tong_tra,tong_no_cuoi_ky,end_date",
      coffee_records: "++rec_id,id,text,cus_id,cus_name,cus_phone,cus_address,slb,thanh_tien,da_tra,no_con,tong_xuat,tong_luu_kho,end_date",
-     details: '++detail_id,id,rec_id,dvt,quantity,no_goc,tien_lai,start_date,end_date,diffDays,name,price,note,interest_rate,isPay',
+     details: '++detail_id,id,rec_id,dvt,quantity,no_goc,tien_lai,import_date,start_date,end_date,diffDays,name,price,note,interest_rate,isPay',
      coffee_details: '++detail_id,id,rec_id,ngay_ghi,slb,price,thanh_tien,da_tra,no_con,xuat,luu_kho,ghi_chu',
    });
 
@@ -74,15 +74,15 @@ Number.prototype.formatMoney = function(c, d, t){
  function init_select2_dvt(){
    var dvt = [
      { id: 1, text: 'Kg' },
-     { id: "1.00", text: 'Cái' },
-     { id: "1.000", text: 'Hộp' },
-     { id: "1.0000", text: 'Gói' },
-     { id: "1.0", text: 'Bao' },
-     { id: 20, text: 'Bao 20Kg' },
-     { id: 25, text: 'Bao 25Kg'},
-     { id: 30, text: 'Bao 30Kg' },
-     {id: 50,text: 'Bao 50Kg'},
-     {id: 1000,text: 'Tấn'}
+     { id: 2, text: 'Cái' },
+     { id: 3, text: 'Hộp' },
+     { id: 4, text: 'Gói' },
+     { id: 5, text: 'Bao' },
+     { id: 6, text: 'Bao 20Kg' },
+     { id: 7, text: 'Bao 25Kg' },
+     { id: 8, text: 'Bao 30Kg' },
+     { id: 9,text: 'Bao 50Kg' },
+     { id: 10,text: 'Tấn' }
    ]
    $('#cal_product_dvt').select2({
      data: dvt,
@@ -95,10 +95,10 @@ Number.prototype.formatMoney = function(c, d, t){
 
  function init_select2_interest_rate(){
    var interest_rate = [
-     {id: 0.026667, text: '0.8%'},
-     {id: 0.033333, text: '1.0%'},
-     {id: 0.04, text: '1.2%'},
-     {id: 0.05, text: '1.5%'},
+     {id: 1, text: '0.8'},
+     {id: 2, text: '1.0'},
+     {id: 3, text: '1.2'},
+     {id: 4, text: '1.5'},
    ]
    $('#cal_product_debt_rate').select2({
      data: interest_rate,
@@ -110,6 +110,7 @@ Number.prototype.formatMoney = function(c, d, t){
  }
 
  function init_datepicker(){
+   $('#cal_product_import_date').datepicker({autoclose: true});
    $('#cal_product_start_date').datepicker({autoclose: true});
    $('#cal_product_end_date').datepicker({autoclose: true});
  }
@@ -176,17 +177,16 @@ Number.prototype.formatMoney = function(c, d, t){
    })
  }
 
- function get_total_result(interest_rate, diffDays, price, dvt, quantity){
-   var total_quantity =  dvt * quantity
-   if( !dvt || !quantity) total_quantity = 1
-   var no_goc = price * total_quantity
+ function get_total_result(interest_rate, diffDays, price, quantity){
+   var interest_rate = interest_rate / 30
+   var no_goc = price * quantity
    var tien_lai = (no_goc * interest_rate * diffDays) / 100
    var tong_thanh_toan = no_goc + tien_lai
    return {
      no_goc: no_goc,
      tien_lai: tien_lai,
      tong_thanh_toan: tong_thanh_toan,
-     total_quantity: total_quantity
+     quantity: quantity
    }
  }
 
@@ -222,15 +222,8 @@ Number.prototype.formatMoney = function(c, d, t){
  }
 
 function init_number_editable(el){
-  var newValue = ''
   el.editable({
-    type: "text",
-    success: function(response, result){
-      newValue = result.toString();
-    }
-  });
-  el.on('hidden', function(e, params) {
-    el.html(fparse(newValue).formatMoney('0', '.', ',').toString())
+    type: "text"
   });
   watch_num_editable($(".num_editable").parent());
 }
@@ -239,9 +232,8 @@ function watch_num_editable(el){
   el.bind('DOMSubtreeModified', function(){
     el.ready(function(){
       if (el.find(".input-sm").length > 0){
-        // console.log(el_input)
         el.find(".input-sm").on("keypress", function (evt) {
-          if ((evt.which < 48 && evt.which != 13) || evt.which > 57){
+          if ((evt.which < 48 && evt.which != 13 && evt.which != 46) || evt.which > 57){
               evt.preventDefault();
           }
         });

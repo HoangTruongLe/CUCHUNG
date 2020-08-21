@@ -103,15 +103,15 @@ function save_debt_details(rec_id){
   $('#detb_table_body > tr').each(function(){
     var debt_rec = {
       isPay: JSON.parse($(this).find('.tool_is_pay').html()),
+      import_date: $(this).find('.tool_import_date').html(),
       start_date: $(this).find('.tool_start_date').html(),
       end_date: $(this).find('.tool_end_date').html(),
       diffDays: fparse($(this).find('.tool_diff_date').html()),
       name: $(this).find('.tool_prod_name').html(),
       price: fparse($(this).find('.tool_price').html()),
       quantity: fparse($(this).find('.tool_quantity').html()),
-      total_quantity: fparse($(this).find('.tool_total_quantity').html()),
       note: reject_empty($(this).find('.tool_note').html()),
-      dvt: fparse($(this).find('.tool_dvt').html()),
+      dvt: $(this).find('.tool_dvt').html(),
       interest_rate: fparse($(this).find('.tool_interest_rate').html()),
       rec_id: rec_id,
       tong: fparse($(this).find('.tool_total').html()),
@@ -140,7 +140,6 @@ function save_coffee_details(rec_id){
       ghi_chu: reject_empty($(this).find('.coffee_ghi_chu').html()),
       id: makeid(),
     }
-    console.log($(this).find('.coffee_ghi_chu').html())
     db.coffee_details.add(coffee_rec)
   })
 }

@@ -23,7 +23,7 @@ function get_product_data(){
       tags: "true",
       placeholder: "Chọn Danh Mục",
       allowClear: true,
-      width: '46%',
+      width: '100%',
       data: val,
     })
   });
