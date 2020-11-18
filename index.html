@@ -43,14 +43,6 @@
     <link rel="stylesheet" href="assets/css/toastr.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
 
-
-    <style type="text/css" media="print">
-      @page { size: landscape; margin: 0mm; }
-      @media print {
-        .noprint {display:none;}
-        .editable-empty{display:none;}
-      }
-    </style>
     <title>DNTN Cúc Hùng</title>
   </head>
   <body class="sticky-footer bg-light" id="page-top">
@@ -226,7 +218,7 @@
           </div>
           <table class="table table-bordered noprint">
             <thead>
-              <th class="text-center" style="width: 7%">P.thức</th>
+              <th class="text-center" style="width: 3%">P.thức</th>
               <th class="text-center" style="width: 9%">Ngày nhập hàng</th>
               <th class="text-center" style="width: 9%">Ngày ghi</th>
               <th class="text-center" style="width: 9%">Ngày tính</th>
@@ -299,29 +291,30 @@
           <table class="table table-bordered table-striped table-hover">
             <thead>
               <th class="text-center noprint" style="width: 1%">Xoá</th>
-              <th class="text-center" style="width: 10%">Ngày nhập</th>
-              <th class="text-center" style="width: 10%">Ngày ghi</th>
-              <th class="text-center" style="width: 10%">Ngày tính</th>
-              <th class="text-center" style="width: 5%">S.ngày</th>
-              <th class="text-center" style="width: 10%">Danh mục</th>
-              <th class="text-center" style="width: 4%">SL</th>
-              <th class="text-center" style="width: 4%">DVT</th>
-              <th class="text-center" style="width: 10%">Đơn giá</th>
-              <th class="text-center" style="width: 4%">Lãi%</th>
-              <th class="text-center" style="width: 10%">Nợ</th>
-              <th class="text-center" style="width: 10%">Trả</th>
-              <th class="text-center" style="width: 10%">Tiền lãi</th>
-              <th class="text-center" style="width: 10%">Tổng</th>
-              <th class="text-center" style="width: 10%">Ghi chú</th>
+              <th class="text-center" style="width: 6%">Ngày nhập</th>
+              <th class="text-center" style="width: 6%">Ngày ghi</th>
+              <th class="text-center" style="width: 6%">Ngày tính</th>
+              <th class="text-center" style="width: 2%">Số Ngày</th>
+              <th class="text-center" style="width: 13%">Danh mục</th>
+              <th class="text-center" style="width: 2%">SL</th>
+              <th class="text-center" style="width: 2%">DVT</th>
+              <th class="text-center" style="width: 6%">Đơn giá</th>
+              <th class="text-center" style="width: 1%">Lãi%</th>
+              <th class="text-center" style="width: 6%">Nợ</th>
+              <th class="text-center" style="width: 6%">Trả</th>
+              <th class="text-center" style="width: 6%">Tiền lãi</th>
+              <th class="text-center" style="width: 6%">Tổng</th>
+              <th class="text-center" style="width: 20%">Ghi chú</th>
             </thead>
             <tbody id='detb_table_body'>
             </tbody>
             <tbody>
               <tr class="success">
                 <td class="noprint"></td>
-                <td ><strong>Tổng cộng</strong></td>
+                <td ><strong>Tổng</strong></td>
+                <td class="text-right" ></td>
                 <td class="text-center" ><a class="noprint" href="#" onclick="set_current_date()">Hôm nay</a></td>
-                <td colspan="7" ><strong></strong></td>
+                <td colspan="6" ><strong></strong></td>
                 <td class="text-right" ><strong id='td_tong_goc'>0</strong></td>
                 <td class="text-right" ><strong id='td_tong_tra'>0</strong></td>
                 <td class="text-right" ><strong id='td_tong_lai'>0</strong></td>
@@ -330,6 +323,12 @@
               </tr>
             </tbody>
           </table>
+          <div id='printOnly' class='row justify-content-end text-right'>
+            <div class='col-md-3 text-center'>Ngày....Tháng....Năm:....</div>
+          </div>
+          <div id='printOnly' class='row justify-content-end text-right'>
+            <div class='col-md-3 text-center'><strong>Xác Nhận Đại Lý</strong></div>
+          </div>
         </div>
 
         <div class="tab-pane" id="coffee_tool" style="font-size: 13px">

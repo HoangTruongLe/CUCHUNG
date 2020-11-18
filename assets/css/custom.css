@@ -1,8 +1,10 @@
 th{
   font-size: 13px;
+  padding: 5px 5px !important;
 }
 td{
   font-size: 13px;
+  padding: 2px !important;
 }
 .current_date_time{
   margin-top: 30px;
@@ -64,4 +66,22 @@ td{
 .num_editable{
   color: blue;
   cursor: pointer;
+}
+.tool_prod_name{
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@page { size: landscape; margin: 0mm; }
+
+@media print {
+  .noprint {display:none;}
+  .editable-empty{display:none;}
+  #printOnly {
+    visibility: visible !important;
+  }
+}
+
+#printOnly {
+  visibility: hidden;
 }
