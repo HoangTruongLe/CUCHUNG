@@ -65,7 +65,7 @@ function render_to_cal_table(data){
     <td class="text-center"><span class="num_editable tool_quantity" id="cal_tool_quantity_`+ data.rec_id +`">`+ formated_quantity +`</span></td>
     <td class="text-center"><span id="cal_tool_dvt_`+ data.rec_id +`" class="tool_dvt">`+ data.dvt +`</span></td>
     <td class="text-right"><span class="num_editable tool_price" id="cal_tool_price_`+ data.rec_id +`">`+ data.price.formatMoney('0', '.', ',') +`</span></td>
-    <td class="text-center"><span id="cal_tool_interest_rate_`+ data.rec_id +`" class="num_editable tool_interest_rate">`+ data.interest_rate +`</span></td>
+    <td class="text-right"><span id="cal_tool_interest_rate_`+ data.rec_id +`" class="num_editable tool_interest_rate">`+ data.interest_rate +`</span>%</td>
     `+ middle +`
     <td class="text-right tong"><span class="tool_total">`+ tong.formatMoney('0', '.', ',') +`</span></td>
     <td class="text-center note"><span class="tool_note" id="cal_tool_note_`+ data.rec_id +`">`+ data.note +`</span></td>

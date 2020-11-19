@@ -69,7 +69,6 @@ td{
 }
 .tool_prod_name{
   display: inline-block;
-  white-space: nowrap;
 }
 
 @page { size: landscape; margin: 0mm; }
