@@ -80,6 +80,9 @@ td{
   #printOnly {
     visibility: visible !important;
   }
+  body{
+    margin-left: 15px !important;
+  }
 }
 
 #printOnly {
