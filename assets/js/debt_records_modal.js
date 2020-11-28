@@ -38,15 +38,17 @@ function render_debt_record(record){
   $('#debt_rec_table').append(row)
 }
 
-function get_debt_records(){
-  $('#debt_rec_table').html("");
-  db.customers.toArray().then(function(cus){
-    cus.forEach(function(val){
-      db.records.where('cus_id').equals(val.id).each(function(record){
-        render_debt_record(record)
-      })
-    })
-  })
+function get_debt_records() {
+  $("#debt_rec_table").html("");
+  db.customers.toArray().then(function (cus) {
+    cus.forEach(function (val) {
+      db.records.where("cus_id").equals(val.id).sortBy("end_date").then(function (result) {
+        result.forEach(function (record) {
+          render_debt_record(record);
+        });
+      });
+    });
+  });
 }
 
 function select_debt_row(rec_id){

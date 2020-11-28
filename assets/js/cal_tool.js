@@ -12,12 +12,15 @@ function cal_total_val(){
 }
 
 function get_data_to_import(){
+  var tong_tien = fparse($('#no_goc').html())
+  var tien_lai = fparse($('#tien_lai').html())
   return {
     rec_id: makeid(),
     dvt: $('#cal_product_dvt').select2('data')[0].text,
     quantity: fparse($('#cal_product_quantity').val()),
-    no_goc: fparse($('#no_goc').html()),
-    tien_lai: fparse($('#tien_lai').html()),
+    no_goc: tong_tien,
+    tra_giua_ky: -1 * tong_tien,
+    tien_lai: isPay() ? -1*tien_lai : tien_lai,
     import_date: $('#cal_product_import_date').val(),
     start_date: $('#cal_product_start_date').val(),
     end_date: $('#cal_product_end_date').val(),
@@ -45,9 +48,9 @@ function render_to_cal_table(data){
   var middle = ""
   if(data.isPay){
     middle = `<td class="text-right no_goc"></td>
-              <td class="text-right tra_giua_ky btn-warning">`+ (data.no_goc * -1).formatMoney('0', '.', ',') +`</td>
-              <td class="text-right tien_lai btn-warning">`+ (data.tien_lai * -1).formatMoney('0', '.', ',') +`</td>`
-    tong = tong * -1
+              <td class="text-right tra_giua_ky btn-warning">`+ (data.tra_giua_ky).formatMoney('0', '.', ',') +`</td>
+              <td class="text-right tien_lai btn-warning">`+ (data.tien_lai).formatMoney('0', '.', ',') +`</td>`
+    tong = data.tra_giua_ky + data.tien_lai
   }else{
     middle = `<td class="text-right no_goc">`+ data.no_goc.formatMoney('0', '.', ',') +`</td>
               <td class="text-right tra_giua_ky"></td>

@@ -11,7 +11,7 @@ function save_debt_record(){
     tong_tra: $("#td_tong_tra").html(),
     tong_lai: $("#td_tong_lai").html(),
     tong_no_cuoi_ky: $("#td_tong_thanhtoan").html (),
-    end_date: get_current_date_time().split(", lúc: ")[0],
+    end_date: get_current_date_time().replace(", lúc: "," - "),
     text: get_current_date_time().replace(", lúc: "," - "),
     rec_type: 1
   }

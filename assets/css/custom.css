@@ -71,6 +71,10 @@ td{
   display: inline-block;
 }
 
+.editableform .control-group{
+  z-index: 9999;
+}
+
 @page { size: landscape; margin: 0mm; }
 
 @media print {

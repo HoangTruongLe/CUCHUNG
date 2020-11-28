@@ -177,7 +177,7 @@ Number.prototype.formatMoney = function(c, d, t){
    })
  }
 
- function get_total_result(interest_rate, diffDays, price, quantity){
+ function get_total_result(interest_rate = 0, diffDays = 0, price = 0, quantity = 0){
    var interest_rate = interest_rate / 30
    var no_goc = price * quantity
    var tien_lai = (no_goc * interest_rate * diffDays) / 100
